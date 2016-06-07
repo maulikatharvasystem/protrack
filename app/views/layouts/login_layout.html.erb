@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Admin Login</title>
+<%= stylesheet_link_tag "common" %>
+<%= stylesheet_link_tag "tables" %>
+<%= javascript_include_tag "users" %>
+<%= javascript_include_tag "jquery-1.9.1.js" %>
+
+</head>
+<body class="login">
+
+<div id="wrapper">
+	<!-- Header -->
+	<div id="header">
+		<div>
+			<img src="/assets/design_images/logonew.png" width="337" height="112" class="logo" alt="ProManager V2.0" /> 
+		</div>
+	</div>
+	<!-- Header -->
+ 
+	<!--  Menu -->
+	  <div id="menu"> </div>
+	<!--  Menu -->
+
+	<div style="clear:both"></div>
+
+	<!--  Content -->
+	<div id="middlepart">
+		<!--  Login Box -->
+		<div class="login_box" id="login">
+			<!-- ERROR DIV -->
+			
+				<% if flash[:message] %>				
+						<%= raw flash[:message] %>					
+				<% end %>
+				<!-- <span>Invalid Login!</span>
+				<p> you have entered wrong username or password!</p> -->
+			
+			<!-- ERROR DIV -->		
+		   
+			<table width="550" align="center">
+				<thead>
+					<tr>
+						<th colspan="2">
+							Welcome To Protrack Guides Admin Panel
+						</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="2">
+						   <span class="forgot">
+						   <a href='<%= url_for :controller => "users", :action => "forgotpassword" %>'>Forgot Password?</a>
+						   </span>
+						<!-- LOGIN FORM -->		   
+						</td>
+					</tr>
+				</tfoot>
+				<tr>
+					<td class="vmiddle">
+						<img src="assets/design_images/loginkey.jpg" alt="Control Panel Login" /> 
+					</td>
+					<td>
+						<!-- LOGIN FORM -->
+						<%= yield %>	
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!--  LoginBox End -->
+	</div>
+	<!--  Content End -->    
+</div>
+<!--  Wrapper End -->
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<%= csrf_meta_tag %>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Admin Panel</title>
+<%= stylesheet_link_tag "common" %>
+<%= stylesheet_link_tag "tables" %>
+<%= stylesheet_link_tag "form" %>
+<%= stylesheet_link_tag "menu" %>
+<%= stylesheet_link_tag "jquery.loadmask" %>
+<%= stylesheet_link_tag "jquery-ui"%>
+<%#= javascript_include_tag "jquery-1.9.1.js" %>
+<%#= javascript_include_tag "jquery-latest.pack.js" %>
+<%#= javascript_include_tag "jquery.loadmask.js" %>
+<%#= javascript_include_tag "users" %>
+<%#= javascript_include_tag "jquery-ui.min.js" %>
+
+<%= javascript_include_tag "application" %>
+
+<!--[if gte IE 5.5]>
+<script language="JavaScript" src="js/ie.js" type="text/JavaScript">
+
+</script>
+<![endif]-->
+</head>
+<body>
+<div id="wrapper">
+<% client_id = session[:client_id] || 0  %>
+<% admin_id = session[:admin_id] || 0  %>
+<% engn_id = session[:engn_id] || 0  %>
+<% proxy_client_id = session[:proxy_client_id] || 0  %>
+				
+<!-- Header -->	
+	<%= render 'common/common_header' %>	  
+<!-- Header -->
+
+<!-- Menu -->
+	<%= render 'common/common_menu' %>
+<!-- Menu -->
+
+<% if (admin_id.to_i > 0 && proxy_client_id.to_i > 0) %>	
+<div id="submenu" style="text-align:center; padding:0px;display:none;" >
+	<span><div style="background-color:#fff; font-size:14px; padding-top:6px; font-weight:bold;  height:25px;">Client: <%= session[:proxy_client_name] || "" %></div></span>
+</div>
+<div id="submenu" style="display:none;" >
+<span class="searchbar"><input type="text" value="search" /> <a href="#" class="add">Go</a></span>
+<ul>
+<li><a href="#">Submenu 1</a></li>
+<li><a href="#">Submenu 2</a></li>
+<li><a href="#">Submenu 3</a></li>
+<li><a href="#" class="activesub">Submenu 4</a></li>
+<li><a href="#">Submenu 5</a></li>
+<li><a href="#">Submenu 6</a></li>
+<li><a href="#">Submenu 7</a></li>
+<li><a href="#">Submenu 8</a></li>
+</ul>
+</div>
+<% end %>
+
+<!-- settings block -->
+<div class="settingsblock" style="display:none;" >
+<div><a href="#">cPanel Home</a> <a href="#">User Management</a> <a href="#">Users Settings Area</a> <a href="#">Add New User</a></div>
+
+<a href="#"><img src="/assets/design_icons/delete.gif" width="48" height="48" alt="Save" /><br />DELETE</a>
+<a href="#"><img src="/assets/design_icons/cancel.gif" width="48" height="48" alt="Save" /><br />CANCEL</a>
+<a href="#"><img src="/assets/design_icons/paste.gif" width="48" height="48" alt="Save" /><br />PASTE</a>
+<a href="#"><img src="/assets/design_icons/copy.gif" width="48" height="48" alt="Save" /><br />COPY</a>
+<a href="#"><img src="/assets/design_icons/save.gif" width="48" height="48" alt="Save" /><br />SAVE</a>
+</div>
+<!-- settings Block -->
+
+<div style="clear:both"></div>
+<!-- Content Area -->
+<div id="middlepart">
+
+<!-- Left column -->
+<div id="leftcolumn" style="width:98%;">
+	<% if flash[:message] %>
+		<%= raw flash[:message] %>
+	<% end %>
+   <!-- Tables 2 -->
+		<%= yield %>
+   <!-- Tables 2 -->
+<!-- Left Column -->
+</div>
+<!-- Right Column -->
+<div id="rightcolumn"  style="display:none;">
+
+<div class="notes">
+<h2>Sidebar Menu</h2>
+<div id="sidebarmenu">
+
+<ul>
+<li><a href="#">User Settings</a></li>
+<li><a href="#">Add New User</a></li>
+<li><a href="#">Set User Preferences</a></li>
+<li><a href="#" class="activesub">Delete User</a></li>
+<li><a href="#">Activate User</a></li>
+<li><a href="#">Deactivate User</a></li>
+</ul>
+
+</div>
+</div>
+
+
+
+<!-- Notes / Articles Box -->
+<div class="notes"><h2>This is a Notice!</h2>
+
+<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis dignissim vulputate leo. </p>
+<ul>
+<li>Donec mauris. Suspendisse potenti. </li>
+<li>Class aptent taciti sociosqu ad litora </li>
+<li>torquent per conubia nostra, per inceptos himenaeos. </li>
+<li>Aliquam molestie, erat non ultricies elementum, </li>
+<li>ante nulla hendrerit erat, sed laoreet </li>
+<li>augue pede eget leo. Nunc iaculis, </li>
+</ul>
+</div>
+ <div class="notes">
+ <h2>To Do List</h2>
+Pending Photos <b>(24)</b><br />
+Accept New Users <b>(15)</b> <br />
+Band IP Addresses <b>(10)</b><br />
+<a href="#">Comments Added <b>(0)</b></a><br />
+</div>
+
+
+
+        <!-- Notes / Articles Box -->
+</div>
+<!-- Content -->
+</div>
+<div class="push"></div>
+</div>
+
+<!-- Wrapper -->
+<div id="footer">
+        <p class="copyright">
+			Pro Track Guides © Copyright 2013 All rights reserved 
+		</p>
+</div>
+
+<script type="javascript">
+	$(document).ready(function(){
+		
+	});
+
+</script>
+
+</body>
+</html>

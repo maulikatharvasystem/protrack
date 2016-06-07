@@ -1,0 +1,60 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+development:
+  remember_days: 30
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+  pagesize: 10
+  thumbwidth: 57
+  thumbheight: 57
+  app_banner_path: 
+  bucket_name: 
+  amazon_path: 
+  api_report_url: 
+  pdf_path: 
+  google_play_path: 
+  default_img_path: 
+  update_default_img_path: 
+  app_icon_path: 
+  image_server_ip: "http://localhost:3005"
+  small_thumb_image_width: 438 
+  small_thumb_image_height: 324
+  med_thumb_image_width: 373
+  med_thumb_image_height: 502
+  domain_url: "http://localhost:3005/"
+  apns_dev_cert_path: "config/apple_push_notification_production.pem"
+  apns_prod_cert_path: "config/apple_push_notification_production.pem"
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+
+production:
+  remember_days: 30
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+  pagesize: 10
+  thumbwidth: 57
+  thumbheight: 57
+  app_banner_path: 
+  bucket_name: 
+  amazon_path: 
+  api_report_url: 
+  pdf_path: 
+  google_play_path: 
+  default_img_path: 
+  update_default_img_path: 
+  app_icon_path:
+  image_server_ip: http://204.197.240.135
+  small_thumb_image_width: 438
+  small_thumb_image_height: 324
+  med_thumb_image_width: 373
+  med_thumb_image_height: 502	
+  domain_url: "http://204.197.240.135/" 
+  apns_dev_cert_path: "config/apple_push_notification_production.pem"
+  apns_prod_cert_path: "config/apple_push_notification_production.pem"

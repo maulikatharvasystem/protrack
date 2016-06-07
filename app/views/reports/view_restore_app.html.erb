@@ -1,0 +1,35 @@
+<%= form_for @user_restore_app_info, :url =>  {:action => "index", :id => @user_restore_app_info.id} do |f| %>
+	<div>
+		<% @user_restore_app_info.errors.full_messages.each do |msg| %>
+			<p><%= msg %></p>
+		<% end %>
+	</div>
+	
+	<fieldset>
+		<legend><%= t :ViewRestoreApp %></legend>
+		
+		<label><%= t :TrackName %>: </label>
+		<%= f.text_field :track_name, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+			
+		<label><%= t :ServedAt %>: </label>
+		<%= f.text_field :create_at, :value => "#{@user_restore_app_info.create_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "width:30% !important;", :disabled => true  %>		
+		<br />
+	
+		<label ></label>	
+		<a href="<%= url_for :action => "restore_apps_history" %>" tooltip="<%= t :Index %>" >
+			<input class="red processing" type="button" value="<%= t :Return %>" id="cancel_restore_app" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+<script type="javascript">
+	$(document).ready(function(){
+		$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	});
+	});
+
+</script>

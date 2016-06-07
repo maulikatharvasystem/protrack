@@ -1,0 +1,24 @@
+<%= form_tag '', :method => 'get', :id => "restore_apps_form", :class=>'form', :style => "padding:0px;" do %>  						
+	<div id="restore_apps_div"> 	
+		<%= render 'restore_apps_listing' %>	  	
+	</div>												
+ <% end %>	
+ 
+ <script type="text/javascript">
+$(document).ready(function() {	  
+	  $("#restore_apps_div th a, #restore_apps_div .pagination a").live("click", function() {			
+			$("#middlepart").mask("Processing...");	
+			$.getScript(this.href);			
+			return false;
+	  });
+  
+     $("#restore_apps_div").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	  
+	$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	});
+	  
+});
+</script>

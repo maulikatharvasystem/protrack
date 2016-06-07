@@ -1,0 +1,14 @@
+<div class="<%= t @error_code.to_s + '.class' %>">
+	<% if (t @error_code.to_s + '.title').strip.empty? == false  %>
+		<span><%= t @error_code.to_s + '.title' %></span>
+		<p><%= t @error_code.to_s + '.desc' %></p>
+	<% else %>	
+	  	<label><%= t @error_code.to_s + '.desc' %></label>
+	<% end %>	
+</div>
+<% # Below code for auto hide flash message only success %>
+<% if (t @error_code.to_s + '.class') == 'success' %>
+<script>
+$(".success").fadeOut(6000);
+</script>
+<% end %>

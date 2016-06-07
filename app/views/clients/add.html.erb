@@ -1,0 +1,70 @@
+<%= form_for @client, :url =>  {:action => "create"} do |f| %>
+	
+	<% if @client.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% error_no=1 %>
+		<% @client.errors.full_messages.each do |msg| %>		
+				<p><%= "#{error_no}) #{msg}" %></p>	
+				<% error_no = error_no + 1 %>
+		<% end %>
+	</div>
+	<% end %>
+	
+	
+	<fieldset>
+		<legend><%= t :AddClient %></legend>		
+		
+		<label><%= t :ClientName %>: </label>
+		<%= f.text_field :client_name, :class => "narrow", :style => "width:30% !important;"  %>
+		<br />
+			
+		<label><%= t :ContactPerson %>: </label>
+		<%= f.text_field :contact_person, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+		
+		<label><%= t :Email %>: </label>
+		<%= f.text_field :email, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+		
+		<label><%= t :Password %>: </label>
+		<%= f.password_field :encrypt_pwd, :class => "narrow", :style => "width:20% !important;"  %>		
+		<br />
+		
+		<label><%= t :ConfirmPassword %>: </label>
+		<%= f.password_field :confirm_password, :class => "narrow", :style => "width:20% !important;"  %>		
+		<br />
+					
+		<label><%= t :Phone %>: </label>
+		<%= f.text_field :phone, :class => "narrow", :style => "width:20% !important;"  %>		
+		<br />
+		
+		<label><%= t :Address %>: </label>
+		<%= f.text_area :address, :class => "narrow", :style => "width:30% !important;", :rows => 3   %>		
+		<br />
+		
+		<label><%= t :WebSite %>: </label>
+		<%= f.text_field :website, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+			
+				
+		<label ></label>	
+		<%= submit_tag t('Save'), :value => t('Save'), :class => "green processing" %>					
+		<input type="reset" class="gray"  value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index_flash_clear" %>" tooltip="<%= t :Index %>" >
+			<input type="button" class="red processing"   value="<%= t :Cancel %>" id="cancel_client" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+ <script type="text/javascript">
+$(document).ready(function() {	
+	$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	 });
+
+});
+ </script>
+

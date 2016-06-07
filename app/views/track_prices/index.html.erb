@@ -1,0 +1,24 @@
+<div>
+	<a class="publish" href="<%= url_for :action => "add" %>"><%= t :AddPrice %> </a>
+</div>
+<br/>
+<%= form_tag '', :method => 'get', :id => "track_price_form", :class=>'form', :style => "padding:0px;" do %>  	
+					    <div id="track_price_div"> 	
+					  		<%= render 'track_price_listing' %>	  	
+					  	</div>	
+											
+ <% end %>	
+ 
+ <script type="text/javascript">
+$(document).ready(function() {	  
+	  $("#track_price_div th a, #track_price_div .pagination a").live("click", function() {			
+			$("#middlepart").mask("Processing...");	
+			$.getScript(this.href);			
+			return false;
+	  });
+  
+     $("#track_price_div").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+});
+</script>

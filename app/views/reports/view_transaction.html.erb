@@ -1,0 +1,52 @@
+<%= form_for @transaction, :url =>  {:action => "index", :id => @transaction.id} do |f| %>
+	<div>
+		<% @transaction.errors.full_messages.each do |msg| %>
+			<p><%= msg %></p>
+		<% end %>
+	</div>
+	
+	<fieldset>
+		<legend><%= t :ViewTransaction %></legend>
+		
+		<label><%= t :TrackName %>: </label>
+		<%= f.text_field :track_name, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+			
+		<label><%= t :ProductID %>: </label>
+		<%= f.text_field :product_id, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :PurchasedDate %>: </label>
+		<%= f.text_field :purchase_date, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+		
+		<label><%= t :TransactionID %>: </label>
+		<%= f.text_field :transaction_id, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+		
+		<label><%= t :Price %>: </label>
+		<%= f.text_field :price, :value => "$#{@transaction.price}", :class => "narrow", :style => "width:5% !important;", :disabled => true  %>
+		<br />		
+		
+		<label><%= t :Gateway %>: </label>
+		<%= f.text_field :gateway, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />		
+
+		<label ></label>	
+		<a href="<%= url_for :action => "transaction_history" %>" tooltip="<%= t :Index %>"  >
+			<input class="red processing" type="button" value="<%= t :Return %>" id="cancel_transaction" tabindex="5"  />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+<script type="javascript">
+	$(document).ready(function(){
+		$('.processing').click(function(){
+			alert("1");
+		});	
+	
+	});
+
+</script>

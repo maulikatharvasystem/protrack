@@ -1,0 +1,61 @@
+<%= form_for @client, :url =>  {:action => "update_client_profile", :id => @client.id} do |f| %>
+	
+	<% if @client.errors.full_messages.length >0 %>			
+		<div class="error">
+			<% @client.errors.full_messages.each do |msg| %>		
+					<p><%= msg %></p>	
+			<% end %>
+		</div>
+	<% end %>
+	
+	<fieldset>
+		<legend><%= t :EditProfile %></legend>		
+		
+		<label><%= t :Name %>: </label>
+		<%= f.text_field :client_name, :class => "narrow", :style => "width:30% !important;"  %>
+		<br />
+		
+		<label><%= t :ContactPerson %>: </label>
+		<%= f.text_field :contact_person, :class => "narrow", :style => "width:30% !important;"  %>
+		<br />
+			
+		<label><%= t :Phone %>: </label>
+		<%= f.text_field :phone, :class => "narrow", :style => "width:20% !important;"  %>		
+		<br /> 
+		
+		<label><%= t :Address %>: </label>
+		<%= f.text_area :address, :class => "narrow", :style => "width:30% !important;", :rows => 2 %>
+		<br />
+		
+		<label><%= t :Email %>: </label>
+		<%= f.text_field :email, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+		
+		<label><%= t :Website %>: </label>	
+		<%= f.text_field :website, :class => "narrow", :style => "width:30% !important;" %>
+		<br />	
+			
+		<label><%= t :TrackLastMod %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@client.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "width:20% !important;", :disabled => true  %>
+		<br />	
+		
+		<label ></label>	
+		<%= submit_tag t('Save'), :value => t('Save'), :class => "green processing" %>					
+		<input type="reset" class="gray" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index", :controller => "dashboard" %>" tooltip="<%= t :Index %>" >
+			<input type="button" class="red processing"  value="<%= t :Cancel %>" id="cancel_profile" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+ <script type="text/javascript">
+$(document).ready(function() {	
+	$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	 });
+
+});
+ </script>

@@ -1,0 +1,97 @@
+<%= javascript_include_tag "jquery.MultiFile.js" %>
+	
+<style>
+.edit_extra_image, .edit_info_image{
+background-color: #808080;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.remove_track_image, .edit_info_image{
+	cursor: pointer;
+}
+
+.MultiFile-list{ 
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+		
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+	
+	
+</style>
+
+<%= form_for @new_turn, :url =>  {:action => "create_ajax"}, :html => {:multipart => true } do |f| %>
+	<div>
+		<% @new_turn.errors.full_messages.each do |msg| %>
+			<p><%= msg %></p>
+		<% end %>
+	</div>
+	
+	<div>
+		<%= f.hidden_field :fk_client_id %>
+		<%= f.hidden_field :fk_track_id %>
+		
+		<label style="width:20% !important;"><%= t :PlacementType %>: </label>
+		<%= f.select :fk_plactype_id, TrackPlacementType.get_track_placement_type().collect {|m| [m.plac_name, m.id] }, {:prompt => t('PlacementType'), :id => "fk_plactype_id"} %>
+		<br />	
+		
+		<label style="width:20% !important;"><%= t :TurnStepID %>: </label>
+		<%= f.text_field :tn_step_id, :value => "", :class => "narrow", :style => "width:75% !important;"  %>
+		<br />
+			
+		<label style="width:20% !important;"><%= t :TurnName %>: </label>
+		<%= f.text_field :tn_name, :class => "narrow", :style => "width:75% !important;"  %>		
+		<br /> 
+		
+		<label style="width:20% !important;"><%= t :TurnData %>: </label>
+		<%= f.text_area :tn_data, :class => "narrow", :style => "width:75% !important;", :rows => 2 %>
+		<br />
+		
+		<label style="width:20% !important;"><%= t :TurnVideo %>: </label>	
+		<%= f.text_field :tn_video, :class => "narrow", :style => "width:75% !important;"  %>			
+		<br />
+		
+		<label style="width:20% !important;"><%= t :TurnType %>: </label>	
+		<%= f.text_area :tn_type, :class => "narrow", :style => "width:75% !important;", :rows => 2 %>
+		<br />	
+
+		<label style="width:20% !important;"><%= t :TurnStrategy %>: </label>	
+		<%= f.text_area :tn_strategy, :class => "narrow", :style => "width:75% !important;", :rows => 2 %>
+		<br />		
+		
+		<label style="width:20% !important;"><%= t :TurnMarker %>: </label>
+		<%= f.text_area :tn_marker, :class => "narrow", :style => "width:75% !important;", :rows => 2 %>		
+		<br />	
+		
+		<label style="width:20% !important;"><%= t :TurnPicture %>: </label>		
+		<%= f.file_field :tn_picture, :height => "80px;", :width => "80px", :accept => "image/*" %>				
+		<br /><br />
+		
+		<label style="width:20% !important;"><%= t :TurnInfoImages %>: </label>		
+		<%= f.file_field :turn_info_image, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "image/png,jpeg,jpg" %>				
+		<br /><br />
+		
+	    <label style="width:20% !important;"><%= t :TurnNote %>: </label>
+		<%= f.text_area :tn_note, :class => "narrow", :style => "width:75% !important;", :rows => 2 %>			
+		<br />			
+		
+		<label  style="width:20% !important;"></label>			
+		
+		<input class="green" type="button" value="<%= t :Save %>" id="save_turn" tabindex="5" />				
+		<input class="gray" type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />				
+		<input class="red" type="button" value="<%= t :Cancel %>" id="cancel_turn" tabindex="5" />
+		
+	</div>
+<% end %>
+

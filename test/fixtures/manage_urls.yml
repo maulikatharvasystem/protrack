@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  admin_id: 1
+  regulation_pdf: MyString
+  media_pdf: MyString
+  car_manual_pdf: MyString
+  fb_url: MyString
+  twitter_url: MyString
+  prema_url: MyString
+  formula_url: MyString
+
+two:
+  admin_id: 1
+  regulation_pdf: MyString
+  media_pdf: MyString
+  car_manual_pdf: MyString
+  fb_url: MyString
+  twitter_url: MyString
+  prema_url: MyString
+  formula_url: MyString

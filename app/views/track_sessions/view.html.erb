@@ -1,0 +1,125 @@
+<style>
+.edit_session_image{
+background-color: #808080;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.remove_session_image{
+	cursor: pointer;
+}
+
+.MultiFile-list{ 
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+		
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+	
+	
+</style>
+
+<%= form_for @track_session, :url =>  {:action => "index", :id => @track_session.id} do |f| %>
+		
+	<fieldset>
+		<legend><%= t :ViewTrackSession %></legend>
+					
+		<label><%= t :SessionName %>: </label>
+		<%= f.text_field :name, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :Date %>: </label>
+		<%= f.text_field :session_date, :value => "#{@track_session.session_date.strftime("%m-%d-%Y")}", :class => "narrow", :style => "width:10% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :Driver %>: </label>		
+		<%= f.select :fk_driver_id, DeviceUser.get_device_user_list(@track_session.fk_client_id).collect {|m| [m.name, m.id] }, {:prompt => t('Driver'), :id => "driver_id"}, :style => "margin-top:5px;" , :disabled => true %>
+		<br />		
+		
+		<label><%= t :EngineerName %>: </label>
+		<%= f.text_field :engineer_name, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :Championship %>: </label>
+		<%= f.text_field :championship, :class => "narrow", :style => "width:60% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :Circuit %>: </label>
+		<%= f.text_field :circuit, :class => "narrow", :style => "width:60% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :Event %>: </label>
+		<%= f.text_field :event, :class => "narrow", :style => "width:60% !important;", :disabled => true  %>		
+		<br />		
+						
+		<label><%= t :TrackLastMod %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@track_session.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}",  :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />		
+					
+		<label><%= t :SessionImage %>: </label>
+		<div>
+			<% if @track_session_image.empty? == false %> 
+				<% @track_session_image.each do |track_session_image| %> 
+					<div class="edit_session_image" id="div_remove_session_image_<%= track_session_image.id %>">
+						<a href="<%= Protrack::Configuration['image_server_ip'] + "" + track_session_image.session_image %>" target="_blank" tooltip="<%= t :TrackSession %>" >
+							<img src="<%= Protrack::Configuration['image_server_ip'] + "" + track_session_image.session_image %>" width="80" height="80" alt="<%= t :TrackSession %>" />
+						</a>
+						</div>
+				<% end %>
+			<% end %>
+		</div>
+
+      <!--<label> Engineer Report :</label>-->
+      <%#= f.text_field :engineer_report, :value => "#{@track_session.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}",  :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+
+      <br style="clear:both;" />
+		
+		<label ></label>	
+		<a href="<%= url_for :action => "edit", :id => @track_session.id %>" tooltip="<%= t :Edit %>"  >
+			<input class="green proccessing" type="button" value="<%= t :Edit %>" id="edit_session" tabindex="5" style="margin-top:5px;" />
+		</a>
+
+		<a href="<%= url_for :action => "delete", :id => @track_session.id %>" tooltip="<%= t :Delete %>" >
+			<input class="gray proccessing"  type="button" value="<%= t :Delete %>" id="delete_session" tabindex="5" />
+		</a>
+		
+		<a href="<%= url_for :action => "index" %>" tooltip="<%= t :Index %>" >
+			<input  class="red proccessing" type="button" value="<%= t :Cancel %>" id="cancel_session" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {	
+  
+   $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+	  
+	$('#delete_session').click(function(){
+		if(confirm("Are you sure to delete session?"))
+		{
+			return true;
+		}
+		else
+		{
+			$("#middlepart").unmask();	
+			return false;
+		}
+	});
+	
+	 
+});
+</script>

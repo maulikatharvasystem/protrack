@@ -1,0 +1,31 @@
+<% admin_id = session[:admin_id] || 0  %>
+
+<div>
+	<a class="publish proccessing" href="<%= url_for :action => "add" %>"><%= t :AddTrack %> </a>
+</div>
+
+<br/>
+<%= form_tag '', :method => 'get', :id => "tracks_form", :class=>'form', :style => "padding:0px;" do %>  						
+	<div id="tracks_div"> 	
+		<%= render 'track_listing' %>	  	
+	</div>												
+ <% end %>	
+ 
+ <script type="text/javascript">
+$(document).ready(function() {	  
+	  $("#tracks_div th a, #tracks_div .pagination a").live("click", function() {			
+			$("#middlepart").mask("Processing...");	
+			$.getScript(this.href);			
+			return false;
+	  });
+  
+     $("#tracks_div").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	 
+	  $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+	 
+});
+</script>

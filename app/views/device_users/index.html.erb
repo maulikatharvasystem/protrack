@@ -1,0 +1,50 @@
+<div>
+	<a class="publish processing" href="<%= url_for :action => "add" %>"><%= t :AddDeviceUser %> </a>
+</div>
+<br/>
+<%= form_tag '', :method => 'get', :id => "device_user_form", :class=>'form', :style => "padding:0px;" do %>  						
+	<div id="device_user_div"> 	
+		<%= render 'device_user_listing' %>	  	
+	</div>												
+ <% end %>	
+ 
+ <script type="text/javascript">
+$(document).ready(function() {	  
+	  $("#device_user_div th a, #device_user_div .pagination a").live("click", function() {			
+			$("#middlepart").mask("Processing...");	
+			$.getScript(this.href);			
+			return false;
+	  });
+  
+     $("#device_user_div").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	  
+	 $(".user_activation").click(function(){
+		 var user_id=$(this).attr("id");
+		 user_id=user_id.replace("user_activation_","");
+		 
+		 if(user_id <=0)
+		 {
+			return false;
+		 }
+		 $("#middlepart").mask("Processing...");	
+		 $.ajax({
+				url: "<%= url_for :action => "send_reactivation_link" %>",
+				data: "id=" + user_id + "",
+				dataType: "json",
+				async: false,
+				success: function(data, textStatus, jqXHR){										
+					$("#middlepart").unmask();	
+					alert(data.message);							
+				}
+			});				
+		 return false;
+	 });
+	 
+	$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	});
+	 
+});
+</script>

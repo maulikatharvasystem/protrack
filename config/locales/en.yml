@@ -1,0 +1,528 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:  
+  ####Commmon#####
+  no_records_found: "No records found" 
+  Action: "Action"
+  Delete: "Delete"
+  Add: "Add"
+  Edit: "Edit"
+  View: "View"
+  Cancel: "Cancel"
+  Index: "Index"
+  Reset: "Reset"
+  Save: "Save"
+  Return: "Return"
+  Remove: "Remove"
+  Note: "Note"
+  NoteDesc: "Note Description"
+  StatusCode: "Status Code"
+  NoRecordFound: "No records found" 
+  
+  ######### App rate settings labels ###############
+  app_name: "App Name"
+  lang: "Language" 
+  popupads_update: "Edit Popup Ad"
+  publishers: "Setting" 
+  publishers_profile: "Publisher Profile"
+  email: "Email "
+  
+  ####Track Index####
+  TrackSetting: "Tracks Setting"
+  SrNo: "SN"
+  TrackName: "Track Name"
+  Price: "Price"
+  TrackLastMod: "Track Modified"
+  AddTrack: "Add Track" 
+  Turn: "Turn"
+  Note: "Note"
+  timing_url: "Timing URL"
+  media_url: "Media URL"
+  weather_url: "Weather URL"
+  lapVideo_url: "Lap Video URL"
+  schedule_pdf_url: "Schedule PDF URL"
+  
+  ####Track Session ####  
+  AddTrackSession: "Add Track Session" 
+  TrackSession: "Track Session"
+  SessionName: "Session Name"
+  SessionImage: "Session Image"
+  EditTrackSession: "Edit Track Session"
+  ViewTrackSession: "View Track Session"
+  
+  ####Edit Track####
+  EditTrack: "Edit Track"  
+  
+  ####Add Track####
+  ExtraImage: "Extra Image"
+  TurnInfoImages: "Turn Info Images"
+  
+  ####View Track####
+  ViewTrack: "View Track"
+  TrackImage: "Track Image"  
+  TrackInfoImage: "Track Info Image"
+  TrackOverviewPageImage: "Track Overview Page Image(FDA App Only)"   
+  TrackDisplayID: "Track Display ID"
+  TrackTip: "Track Tip"
+  NumberOfTurns: "Number of Turns"
+  
+  #####Track Price###
+  Trackprice: "Track Prices"
+  Price: "Price"
+  ProductID: "Product ID"
+  AddPrice: "Add Track Price"
+  Description: "Description"
+  ViewPrice: "View Track Price"
+  EditPrice: "Edit Track Price"
+  
+  #########Turn Edit###
+  EditTurn: "Edit Turn" 
+  PlacementType: "Placement Type"
+  TurnStepID: "Turn Step ID"
+  TurnName: "Turn Name"
+  TurnData: "Coach Tip"
+  TurnVideo: "Turn Video"
+  TurnType: "TurnType"
+  TurnStrategy: "Turn Strategy"
+  TurnMarker: "Turn Marker"
+  TurnPicture: "Turn Picture"
+  TurnNote: "Turn Note"
+  TurnSorting: "Turn Sorting"
+  SaveTurn: "Save Turn"
+  
+  ##############Client Add, Edit and Delete########
+  EditProfile: "Edit Profile"
+  Name: "Name"
+  ContactPerson: "Contact Person"
+  Phone: "Phone"
+  Address: "Address"
+  Email: "Email"
+  Website: "Website"
+  ChangePassword: "Change Password"
+  OldPassword: "Old Password"
+  NewPassword: "New Password"
+  ConfirmPassword: "Confirm Password"
+  Password: "Password"
+  AddClient: "Add Client"
+  EditClient: "Edit Client"
+  Clients: "Clients"
+  ClientName: "Client Name"
+  LastModified: "Last Modified"  
+  ViewClient: "View Client"
+  ClientTrack: "Client Track"
+  SendReactivationLink: "Send Reactivation Link"
+  Reactivate: "Reactivate"
+  Activate: "Activate"
+  DeActivate: "Deactivate"
+  
+  #########Report##########
+  TransactionHistoryReport: "Transactions History Report"
+  PurchasedDate: "Purchased Date"
+  TransactionID: "Transaction ID"
+  Gateway: "Gateway"
+  ViewTransaction: "View Transaction"
+  RestoreAppsHistoryReport: "Restore Apps History Report"
+  ServedAt: "Served At"
+  ViewRestoreApp: "View Restore App"
+   
+  ##### Errors code #########
+  
+  ######## Common Message ###########
+  presence: "can't be blank"
+  uniqueness: "is already taken"
+  validates_confirmation_of: "doesn't match confirmation"
+  format: "is invalid"
+  DoesntMatch: "doesn't match"
+  
+  ######## Users view ###########
+  ResetPassword: "Reset Password"
+  ForgotYourPassword: "Forgot your password"
+  EnterEmail: "Enter your email address"
+  SendResetInst: "Send me reset instructions"
+  BackToLogin: "send me back to the login screen" 
+  SendMeResetInstrunctions: "Send me reset instructions"
+  CantSignIn: "Can't sign in"
+  EnterYourEmailAddressBelowAndWeWillSendYouPasswordResetInstructions: "Enter your email address below and we'll send you password reset instructions" 
+  aNoteAboutSApamFilters: "A note about spam filters"
+  IfYouDontGetAnEmailFromUSWithinAFewminutesPleaeseBeSureToCheckYourSpamFilter: "If you don't get an email from us within a few minutes please be sure to check your spam filter"
+  TheEmailWillBeCommingFrom: "The email will be coming from"
+  DoNotReplySpaceoCom: "do-not-reply@protrack.com"
+  ManageUrls: 'Manage Urls'
+
+  
+  ########Device User########
+  AddDeviceUser: "Add Driver Account"
+  DeviceUser: "Driver Account"
+  FirstName: "First Name"
+  LastName: "Last Name"
+  DOB: "DOB"
+  EditDeviceUser: "Edit Driver Account"
+  ViewDeviceUser: "View Driver Account"
+  
+  #########Race Engineer########
+  AddRaceEngineer: "Add Race Engineer"
+  RaceEngineer: "Race Engineer"
+  RaceEngineerName: "Race Engineer Name"
+  EditRaceEngineer: "Edit Race Engineer"
+  ViewRaceEngineer: "View Race Engineer"
+  Driver: "Select Driver"
+  Date: "Date"
+  SessionName: "Session Name"
+  EngineerName: "Engineer Name"
+  Championship: "Championship"
+  Circuit: "Circuit"
+  Event: "Event"
+  ReportInfo: "Report Info"
+
+  RaceEngineerReport: "Race Engineer Report"
+  ReportLastMod: "Report Modified"
+
+  AddRaceReport: "Add Race Report"
+  EditRaceReport: "Edit Race Report"
+  ViewRaceReport: "View Race Report"
+  ReportName: "Report Name"
+  race_report_created: 'Race Report is successfully created.'
+  race_report_invalid: 'Race Report is not valid. Please try again'
+  
+  ######## Login Error Message ###########
+  length_Min_5: "is too short (minimum is 5 characters)"
+  length_Max_32: "is too long (maximum is 32 characters)"
+  length_Max_30: "is too long (maximum is 30 characters)"
+    
+  e201:
+    title: Invalid Login!
+    desc: Invalid Username/password combination
+    class: error 
+  e301: 
+    title: ""
+    desc: You are logged in
+    class: success   
+  e302: 
+    title: Congratulation!
+    desc: User registration successfully
+    class: success  
+  e303:
+    title: ""
+    desc: you have been logged out
+    class: success 
+  e306:
+    title: Email is not verified
+    desc:  Please check your email and verified for access to protrack
+    class: error
+  e310:
+    title: Error!
+    desc:  Please try again
+    class: error
+  e314:
+    title: ""
+    desc:  your reset password url is verified. Please reset password
+    class: success
+  e315:
+    title: Email is verified
+    desc:  Please check your email and reset password for access to protrack
+    class: success
+  e318:
+    title: ""
+    desc:  Email can't be blank
+    class: error
+  e348:
+    title: ""
+    desc:  "Track is successfully deleted"
+    class: success	
+  e349:
+    title: ""
+    desc:  "Please, try again. Track have a problem"
+    class: success	
+  e350:
+    title: ""
+    desc:  "Track is successfully created"
+    class: success
+  e351:
+    title: ""
+    desc:  "Track is successfully updated"
+    class: success
+  e352:
+    title: ""
+    desc:  "Track is not found"
+    class: error
+  e353:
+    title: ""
+    desc:  "Track price is not found"
+    class: error
+  e354:
+    title: ""
+    desc:  "Please, try again. Track price have a problem"
+    class: error
+  e355:
+    title: ""
+    desc:  "Track price is successfully updated"
+    class: success
+  e356:
+    title: ""
+    desc:  "Track price is successfully created"
+    class: success
+  e357:
+    title: ""
+    desc:  "Track price is successfully deleted"
+    class: success
+  e358:
+    title: ""
+    desc:  "Profile is successfully updated"
+    class: success
+  e359:
+    title: ""
+    desc:  "Please, try again. Profile have a problem"
+    class: error	
+  e360:
+    title: ""
+    desc:  "Password is successfully updated"
+    class: success
+  e361:
+    title: ""
+    desc:  "Please, try again. Password have a problem"
+    class: error
+  e362:
+    title: ""
+    desc:  "Please, try again. Old password is incorrect"
+    class: error
+  e363:
+    title: ""
+    desc:  "New password and confirm password doesn't match"
+    class: error
+  e364:
+    title: ""
+    desc:  "Old password, new password, confirm password can't be blank"
+    class: error
+  e365:
+    title: ""
+    desc:  "Client is not found"
+    class: error
+  e366:
+    title: ""
+    desc:  "Please, try again. Client have a problem"
+    class: error
+  e367:
+    title: ""
+    desc:  "Client is successfully updated"
+    class: success
+  e368:
+    title: ""
+    desc:  "Client is successfully created"
+    class: success
+  e369:
+    title: ""
+    desc:  "Client is successfully deleted"
+    class: success
+  e370:
+    title: ""
+    desc:  "Device not found"
+    class: error
+  e371:
+    title: ""
+    desc:  "Please, try again. Track turn have a problem"
+    class: error
+  e372:
+    title: ""
+    desc:  "Track turn is successfully updated"
+    class: success
+  e373:
+    title: ""
+    desc:  "Track turn is successfully created"
+    class: success
+  e374:
+    title: ""
+    desc:  "Track turn is successfully deleted"
+    class: success
+  e375:
+    title: ""
+    desc:  "Please, do not make any changes in url or system parameters."
+    class: success
+  e376:
+    title: ""
+    desc:  "new password, confirm password can't be blank"
+    class: error
+  e377:
+    title: ""
+    desc:  "Client is successfully de-activated"
+    class: success
+  e378:
+    title: ""
+    desc:  "Client is successfully activated"
+    class: success
+#error code for api
+#start
+  e1000:
+    errorcode: 1000
+    errordescription: Matching RMA not found.
+  e1001:
+    errorcode: 1001
+    errordescription: RMA not found for this app version.
+  e1002:
+    errorcode: 1002
+    errordescription: User already given feedback.
+  e1003:
+    errorcode: 1003
+    errordescription: User never want to give feedback.
+  e1004:
+    errorcode: 1004
+    errordescription: User last action for RMA not found.
+  e1005:
+    errorcode: 1005
+    errordescription: Validation errors.
+  e1006:
+    errorcode: 1006
+    errordescription: Deviced Id not saved.
+  e1007:
+    errorcode: 1007
+    errordescription: RMA doesn't found for requested language.
+  e1008:
+    errorcode: 1008
+    errordescription: Signature doesn't match.
+  e1009:
+    errorcode: 1009
+    errordescription: Apps not found.
+  e1010:
+    errorcode: 1010
+    errordescription: User registration failed.
+  e1011:
+    errorcode: 1011
+    errordescription: Client is unauthorized.
+  e1012:
+    errorcode: 1012
+    errordescription: User is unauthorized..
+  e1013:
+    errorcode: 1013
+    errordescription: Device registration failed.
+  e1014:
+    errorcode: 1014
+    errordescription: Device is unauthorized.
+  e1015:
+    errorcode: 1015
+    errordescription: Track not found.
+  e1016:
+    errorcode: 1016
+    errordescription: Track turn/notes not found.
+  e1017:
+    errorcode: 1017
+    errordescription: Track registration failed.
+  e1018:
+    errorcode: 1018
+    errordescription: Track Product not found.
+  e1019:
+    errorcode: 1019
+    errordescription: Client data allready updated.
+  e1020:
+    errorcode: 1020
+    errordescription: Bike data allready updated.
+  e1021:
+    errorcode: 1021
+    errordescription: Bike data updation failed.
+  e1022:
+    errorcode: 1022
+    errordescription: Bike data not found.
+  e1023:
+    errorcode: 1023
+    errordescription: Bike info data updation failed.
+  e1024:
+    errorcode: 1024
+    errordescription: Bike info data allready updated.
+  e1025:
+    errorcode: 1025
+    errordescription: Bike tire info data updation failed.
+  e1026:
+    errorcode: 1026
+    errordescription: Bike tire info data allready updated. 
+  e1027:
+    errorcode: 1027
+    errordescription: Bike mechanical section data updation failed.
+  e1028:
+    errorcode: 1028
+    errordescription: Bike mechanical section data allready updated. 
+  e1029:
+    errorcode: 1029
+    errordescription: Bike suspension section data updation failed.
+  e1030:
+    errorcode: 1030
+    errordescription: Bike suspension section data allready updated.
+  e1031:
+    errorcode: 1031
+    errordescription: Bike misc. section data updation failed.
+  e1032:
+    errorcode: 1032
+    errordescription: Bike misc. section data allready updated. 
+  e1033:
+    errorcode: 1033
+    errordescription: User visit track history data updation failed.
+  e1034:
+    errorcode: 1034
+    errordescription: User visit track history data allready updated. 
+  e1035:
+    errorcode: 1035
+    errordescription: User visit track turns/notes history data updation failed.
+  e1036:
+    errorcode: 1036
+    errordescription: User visit track turns/notes history data allready updated.
+  e1037:
+    errorcode: 1037
+    errordescription: User track turns/notes data updation failed.
+  e1038:
+    errorcode: 1038
+    errordescription: User track turns/notes data allready updated.
+  e1039:
+    errorcode: 1039
+    errordescription: Transaction id is not valid.
+  e1040:
+    errorcode: 1040
+    errordescription: xyz.
+  e1041:
+    errorcode: 1041
+    errordescription: xyz.
+  e1042:
+    errorcode: 1042
+    errordescription: xyz.
+  e1043:
+    errorcode: 1043
+    errordescription:  Session is unauthorized
+  e2101:
+    errorcode: 2101
+    errordescription:  Report data not valid
+  e2102:
+    errorcode: 2102
+    errordescription:  Server don't process on Report data. Please, try again
+  e2103:
+    errorcode: 2103
+    errordescription:  Report not found on requested data.
+  e2201:
+    errorcode: 2201
+    errordescription:  Turn data not valid	
+  e2202:
+    errorcode: 2202
+    errordescription:  Server don't process on Turn data. Please, try again
+  e2203:
+    errorcode: 2203
+    errordescription:  Your account is deleted. Please contact to administrator of app.
+  e2204:
+    errorcode: 2204
+    errordescription:  Your account is not active. Please contact to administrator of app.
+  #Field of table 
+  activerecord:
+    attributes:
+      device_user:
+        email: "Email"
+        encrypt_pwd: "Password"
+      track_turn_note:
+        tn_name: "Turn Name"
+        tn_picture: "Turn Picture"
+        tn_step_id: "Turn Step ID"
+        tn_video: "Turn Video"
+      client:
+        encrypt_pwd: "Password"
+        encrypted_password_confirmation: "Confirm password"
+      client_track:
+        display_id: "Track display id"
+        fk_product_id: "Price"
+      track_session:
+        session_date: "Session date"
+        fk_driver_id: "Driver"

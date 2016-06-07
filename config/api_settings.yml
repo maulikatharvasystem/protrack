@@ -1,0 +1,190 @@
+# Spaceo - Javee Api Validations & Configuation file
+# Created By: GB
+# Each api method validations, default value settings.
+
+development:  
+  user_login:
+    required: client_id,device_id,email,password
+    authmodel: 
+    authkeyname: 
+  coockies_user_login:
+    required: client_id,device_id,email,password
+    authmodel: 
+    authkeyname:
+    coockies: "1"
+  coockies_user_logout:
+    required:
+    authmodel: 
+    authkeyname:
+    coockies: "1"
+  user_registeration:
+    required: client_id,device_id,email,password,first_name,last_name,phone,address,dob
+    authmodel: 
+    authkeyname: 
+  need_update:
+    required: client_id,device_id,sessionid,last_updated
+    authmodel: 
+    authkeyname: 	
+  load_file:
+    required: client_id,device_id,sessionid	
+    authmodel: 
+    authkeyname: 
+  save_file:
+    required: client_id,device_id,sessionid,last_updated,zip_file
+    authmodel: 
+    authkeyname: 
+  #1.D	
+  device_registeration:
+    required: client_id,platform_code,device_token
+    authmodel: 
+    authkeyname:  
+  coockies_update_push_token:
+    required: device_id,token,client_id
+    authmodel: 
+    authkeyname:
+    coockies: "1"  
+  #coach_tip,corner_type,corner_strategy,corner_markers,notes
+  coockies_update_turns:
+    required: 
+    authmodel: 
+    authkeyname:
+    coockies: "1"  
+  #circuit,engineer_name,event,report_time,championship,name
+  coockies_post_report:
+    required: report_time
+    authmodel: 
+    authkeyname:
+    coockies: "1"	  
+  coockies_patch_report:
+    required: report_time
+    authmodel: 
+    authkeyname:
+    coockies: "1"	  
+  coockies_delete_report:
+    required: 
+    authmodel: 
+    authkeyname:
+    coockies: "1"		
+  #2.D	
+  get_track:  
+    required: client_id,device_id,platform_code
+    authmodel: 
+    authkeyname:
+  coockies_get_track:  
+    required: 
+    authmodel: 
+    authkeyname:
+    coockies: "1"
+  #3.D
+  register_purchased_track:
+    required: client_id,device_id,track_id,product_id,receipt_data,gateway
+    authmodel: 
+    authkeyname:
+  #4.D
+  get_purchased_track_tn_detail:
+    required: client_id,device_id,track_id
+    authmodel: 
+    authkeyname:    
+  #5.D
+  restore_purchased_track:
+    required: client_id,device_id,transaction_id
+    authmodel: 
+    authkeyname:
+  #6.D
+  restore_purchased_track_tn_detail:
+    required: client_id,device_id,transaction_id   
+    authmodel: 
+    authkeyname: 
+production:  
+  user_login:
+    required: client_id,device_id,email,password
+    authmodel: 
+    authkeyname: 
+  coockies_user_login:
+    required: client_id,device_id,email,password
+    authmodel: 
+    authkeyname:
+    coockies: "1"
+  coockies_user_logout:
+    required:
+    authmodel: 
+    authkeyname:
+    coockies: "1"
+  user_registeration:
+    required: client_id,device_id,email,password,first_name,last_name,phone,address,dob
+    authmodel: 
+    authkeyname: 
+  need_update:
+    required: client_id,device_id,sessionid,last_updated
+    authmodel: 
+    authkeyname: 	
+  load_file:
+    required: client_id,device_id,sessionid	
+    authmodel: 
+    authkeyname: 
+  save_file:
+    required: client_id,device_id,sessionid,last_updated,zip_file
+    authmodel: 
+    authkeyname: 
+  #1.D	
+  device_registeration:
+    required: client_id,platform_code,device_token
+    authmodel: 
+    authkeyname:  
+  coockies_update_push_token:
+    required: device_id,token,client_id
+    authmodel: 
+    authkeyname:
+    coockies: "1"  
+  #coach_tip,corner_type,corner_strategy,corner_markers,notes
+  coockies_update_turns:
+    required: 
+    authmodel: 
+    authkeyname:
+    coockies: "1"  
+  #circuit,engineer_name,event,report_time,championship,name
+  coockies_post_report:
+    required: report_time,name
+    authmodel: 
+    authkeyname:
+    coockies: "1"	  
+  coockies_patch_report:
+    required: report_time,name
+    authmodel: 
+    authkeyname:
+    coockies: "1"	  
+  coockies_delete_report:
+    required: 
+    authmodel: 
+    authkeyname:
+    coockies: "1"		
+  #2.D	
+  get_track:  
+    required: client_id,device_id,platform_code
+    authmodel: 
+    authkeyname:
+  coockies_get_track:  
+    required: 
+    authmodel: 
+    authkeyname:
+    coockies: "1"
+  #3.D
+  register_purchased_track:
+    required: client_id,device_id,track_id,product_id,receipt_data,gateway
+    authmodel: 
+    authkeyname:
+  #4.D
+  get_purchased_track_tn_detail:
+    required: client_id,device_id,track_id
+    authmodel: 
+    authkeyname:    
+  #5.D
+  restore_purchased_track:
+    required: client_id,device_id,transaction_id
+    authmodel: 
+    authkeyname:
+  #6.D
+  restore_purchased_track_tn_detail:
+    required: client_id,device_id,transaction_id   
+    authmodel: 
+    authkeyname: 

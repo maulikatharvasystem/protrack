@@ -1,0 +1,80 @@
+
+<table cellspacing="0" cellpadding="0" width="100%" class="listing" id="track_sessions_listing"  >
+	 <thead>
+		<tr>
+            <th class="capt" colspan="4">
+				<%= t :TrackSession %> 											
+			</th>
+			
+		</tr>
+		
+		<tr class="ftr">				
+			<th style="text-align:left;">		
+				<%= t('SessionName') %>
+			</th>				
+			<th style="text-align:left;">		
+				<%= t('TrackLastMod') %>
+			</th>	
+			<th>		
+				<%= t('Action') %>
+			</th>	
+		</tr>
+	</thead>
+	
+	<% alt_row=0 %>
+	<% sr_no=0 %>
+	<% if @track_session.nil? || @track_session.count == 0  %>
+		<tr>
+			<td colspan="4" style="border: none;"><%= t :NoRecordFound %></td>
+		</tr>
+	<% else %>
+	
+		<% @track_session.each do |f| %>		
+		<% if alt_row==0 %>
+			<% alt_row=1 %>
+			<tr id="node-<%= f.id %>">
+		<% else %>
+			<tr id="node-<%= f.id %>" class="tb_grey">
+			<% alt_row=0 %>
+		<% end %>				
+			<td  align="center" valign="middle">	  		
+			   <div id="name<%= f.id %>" class="" style="text-align:left;">
+					<%= f.session_date.to_formatted_s(:long) %> - <%= f.engineer_name %> - <%= f.championship %> - <%= f.circuit %> - <%= f.event %>
+			   </div>   
+			</td>	
+			<td  align="center" valign="middle">	  		
+			   <div id="last_updated_at_<%= f.id %>" class="" style="text-align:left;">
+					<%= f.last_updated_at.strftime("%m-%d-%Y %H:%M:%S") %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="action_<%= f.id %>" class="" style="">
+					<a class="edit proccessing" href="<%= url_for :action => "edit",:eng_id => f.fk_engn_id, :track_id => f.id %>"><%= t :Edit %> </a>
+					<a class="publish proccessing" href="<%= url_for :action => "show" ,:eng_id => f.fk_engn_id, :track_id => f.id %>"><%= t :View %> </a>
+					<a class="delete proccessing" href="<%= url_for  :action => "show" ,:eng_id => f.fk_engn_id, :track_id => f.id %>"><%= t :Delete %> </a>
+			   </div>   
+			</td>
+			
+		</tr>
+		<% end %>
+	<% end %>	
+		<tfoot>	
+		<tr>	
+			<th colspan="5" class="ftr bgr">
+				<div class="paging_cntr">
+					<!--start  Pagination --> 
+					<% if @track_session.count > 0 %>
+						<div style="float:right;  margin-right:15px;"><%=  will_paginate @track_session %>
+						</div>
+					<% end %>
+					<!-- end Pagination -->							
+				</div>			
+			</th>		
+		</tr>
+	</tfoot>	
+	
+	
+</table>
+<!-- End cs_slider -->
+<%=hidden_field_tag "pageno", params[:page]%>
+

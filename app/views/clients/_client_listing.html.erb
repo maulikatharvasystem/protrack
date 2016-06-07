@@ -1,0 +1,137 @@
+<% status_mean="Unknown" %>
+<table cellspacing="0" cellpadding="0" width="100%" class="listing" id="tracks_listing"  >
+	 <thead>
+		<tr>
+            <th class="capt" colspan="7">
+				<%= t :Clients %> 											
+			</th>
+			
+		</tr>
+		
+		<tr class="ftr">				
+			<th style="text-align:left;">		
+				<%= t('ClientName') %>
+			</th>	
+			<th style="text-align:left;">		
+				<%= t('ContactPerson') %>
+			</th>	
+			<th style="text-align:left;">		
+				<%= t('Phone') %>
+			</th>
+			<th style="text-align:left;">		
+				<%= t('Email') %>
+			</th>		
+			<th style="text-align:left;">		
+				<%= t('LastModified') %>
+			</th>	
+			<th style="text-align:left;">		
+				<%= t('StatusCode') %>
+			</th>
+			<th>		
+				<%= t('Action') %>
+			</th>	
+		</tr>
+	</thead>
+	
+	<% alt_row=0 %>
+	<% sr_no=0 %>
+	<% if @client.nil? || @client.count == 0  %>
+		<tr>
+			<td colspan="7" style="border: none;"><%= t :NoRecordFound %></td>
+		</tr>
+	<% else %>
+		<% @client.each do |f| %>		
+		<% if alt_row==0 %>
+			<% alt_row=1 %>
+			<tr id="node-<%= f.id %>">
+		<% else %>
+			<tr id="node-<%= f.id %>" class="tb_grey">
+			<% alt_row=0 %>
+		<% end %>				
+			<td  align="center" valign="middle">	  		
+			   <div id="client_name_<%= f.id %>" class="" style="text-align:left;">
+					<%= f.client_name %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="contact_person_<%= f.id %>" class="" style="text-align:left;">
+					<%= f.contact_person %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="phone<%= f.id %>" class="" style="text-align:left;">
+					<%= f.phone %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="email<%= f.id %>" class="" style="text-align:left;">
+					<%= f.email %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="last_updated_at_<%= f.id %>" class="" style="text-align:left;">							
+					<%= f.last_updated_at.strftime("%m-%d-%Y %H:%M:%S") %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="status_code_<%= f.id %>" class="" style="text-align:left;">					
+					<% if f.status_code.to_s == "400" 
+							status_mean="Unverified"
+						elsif f.status_code.to_s == "401"
+							status_mean="Active"
+						elsif f.status_code.to_s == "402"
+							status_mean="DeActive"
+						elsif f.status_code.to_s == "403"
+							status_mean="Deleted"
+						end
+					%>
+					<%= status_mean %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="action_<%= f.id %>" class=""  style="text-align:left;">
+					<% if f.status_code.to_s == "401" %>
+						<a class="edit processing" href="<%= url_for :controller => "tracks", :action => "index", :id => f.id %>"><%= t :ClientTrack %> </a>
+						<a class="edit processing" href="<%= url_for :action => "edit", :id => f.id %>"><%= t :Edit %> </a>
+						<a class="publish processing" href="<%= url_for :action => "view" , :id => f.id %>"><%= t :View %> </a>
+					<%	end %>	
+					
+					<% if f.status_code.to_s != "403" %>
+						<a class="delete processing" href="<%= url_for  :action => "view" , :id => f.id %>"><%= t :Delete %> </a>
+					<%	end %>	
+					
+					<% if f.status_code.to_s == "400" %>
+						<a class="delete user_activation" href="#" id="user_activation_<%= f.id %>"><%= t :SendReactivationLink %> </a>
+					<%	elsif f.status_code.to_s == "401" %>		
+						<a class="delete processing" href="<%= url_for :action => "user_deactivation" , :id => f.id %>" id="user_deactivation_<%= f.id %>"><%= t :DeActivate %> </a>
+					<%	elsif f.status_code.to_s == "402" %>				
+						<a class="delete processing" href="<%= url_for :action => "user_reactivation" , :id => f.id %>" id="user_reactivation_<%= f.id %>"><%= t :Activate %> </a>
+					<%	elsif f.status_code.to_s == "403" %>	
+						<a class="delete processing" href="<%= url_for :action => "user_reactivation" , :id => f.id %>" id="user_reactivation_<%= f.id %>"><%= t :Reactivate %> </a>
+					<%	end %>				
+			   </div>   
+			</td>
+			
+		</tr>
+		<% end %>
+	<% end %>	
+		<tfoot>	
+		<tr>	
+			<th colspan="7" class="ftr">
+				<div class="paging_cntr">
+					<!--start  Pagination --> 
+					<% if @client.count > 0 %>
+						<div style="float:left;  margin-right:15px;"><%=  will_paginate @client %>
+						</div>
+					<% end %>
+					<!-- end Pagination -->							
+				</div>			
+			</th>		
+		</tr>
+	</tfoot>	
+	
+	
+</table>
+<!-- End cs_slider -->
+<%=hidden_field_tag "pageno", params[:page]%>
+

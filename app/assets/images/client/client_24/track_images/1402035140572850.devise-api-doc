@@ -1,0 +1,269 @@
+LINKS : http://vimeo.com/34863929
+LINKS : http://blog.codebykat.com/2012/07/23/remote-api-authentication-with-rails-3-using-activeresource-and-devise/
+LINKS : http://www.emilsoman.com/blog/2013/05/18/building-a-tested/
+LINKS : http://collectiveidea.com/blog/archives/2013/06/13/building-awesome-rails-apis-part-1/
+LINKS : http://stackoverflow.com/questions/16258911/rails-4-authenticity-token (SOLUTION)
+LINKS : http://mt.gomiso.com/2011/06/27/building-a-platform-api-on-rails/
+LINKS : http://railsware.com/blog/2013/04/08/api-with-ruby-on-rails-useful-tricks/
+LINKS : http://vimeo.com/66783462
+LINKS : https://github.com/rails-api/rails-api
+LINKS : http://collectiveidea.com/blog/archives/2013/06/13/building-awesome-rails-apis-part-1/
+LINKS : http://mojoware.com/posts/mobile-rails-api-with-devise
+LINKS : http://matteomelani.wordpress.com/2011/10/17/authentication-for-mobile-devices/
+LINKS : https://gist.github.com/jwo/1255275
+LINKS : http://andreapavoni.com/blog/2013/8/a-rails-4-tutorial-application-for-beginners
+LINKS : 
+LINKS : 
+LINKS : 
+LINKS : 
+LINKS : 
+
+
+Step 1 : Create Project (rails new rails-api)
+Step 2 : Add in gem file (gem 'devise', '3.0.0')
+Step 3 : Bundle
+Step 4 : rails generate devise:install
+Step 5 : rails g devise user
+Step 6 : rails g devise:views
+Step 7 : Uncomment line from 
+  db/migrate/20131213115935_devise_create_users.rb
+   (t.string :authentication_token)
+Step 8 : rake db:migrate
+Step 9 : Add below line in user.rb
+    devise :token_authenticatable
+Step 10 : Then a few small changes to the Devise config (config/initializers/devise.rb):
+config.skip_session_storage = [:http_auth, :token_auth]
+config.token_authentication_key = :auth_token
+
+Step 11 : Create users_controller.rb > In file
+  
+  class UsersController < ApplicationController
+      before_filter :authenticate_user!, :except => [:create, :new, :show]
+  end
+
+Step 12 : Create sessions_controller.rb > In file
+  
+  class SessionsController < ApplicationController
+    def create
+      resource = User.find_for_database_authentication(:email => params[:email])
+      return invalid_login_attempt unless resource
+            
+        if resource.valid_password?(params[:password])
+          resource.ensure_authentication_token!  #make sure the user has a token generated
+          render :json => { :authentication_token => resource.authentication_token, :user_id => resource.id }, :status => :created
+        return
+      end
+    end
+
+    def destroy
+        # expire auth token
+        @user=User.where(:authentication_token=>params[:auth_token]).first
+        @user.reset_authentication_token!
+        render :json => { :message => ["Session deleted."] },  :success => true, :status => :ok
+    end
+        
+    def invalid_login_attempt
+        warden.custom_failure!
+        render :json => { :errors => ["Invalid email or password."] },  :success => false, :status => :unauthorized
+    end
+  end
+
+Step 13 : In routes.rb
+  devise_for(:users, :controllers => { :sessions => "sessions" })
+
+Step 14 : If this generates any error of (ActionController::InvalidAuthenticityToken)
+          In application_controller.rb change this line
+
+          protect_from_forgery with: :exception
+                      with
+          protect_from_forgery with: :null_session
+
+
+
+
+COMMANDS TO RUN ON CONSOLE
+  Step 1 :  Insert Data Into Model (Also For SIGN_UP)
+            curl -d "model_name[field_name]=value&model_name[field_name_2]=value&..." http://localhost:3000/<model>.json
+            (EX : curl -d "user[email]=a@b.com&user[password]=savan123&user[password_confirmation]=savan123" http://localhost:3000/users.json)
+
+  Step 2 :  Delete Record From Model
+            curl -X DELETE http://localhost:3000/<MODEL_NAME>/<ID>.json
+            (EX : curl -X DELETE http://localhost:3000/tasks/4.json)
+
+  Step 3 :  For SIGN_IN and verify record from database (FOR SIGN_IN ALSO)
+            curl http://localhost:3000/users/sign_in --data "email=a@b.com&password=savan123"
+            (EX : curl http://localhost:3000/users/sign_in --data "email=a@b.com&password=savan123")
+
+  Step 4 :  Sign out
+            curl -X DELETE http://localhost:3000/users/sign_out&auth_token={"ZB6xaz9P69vzbkHUt3xj"}
+            curl -x DELETE http://localhost:3000/users/sign_out&auth_token={token}
+            # should log out the user, changing the authentication token.
+
+
+ 
+ <------------------------------------- 1  For Show  ------------------------------------------------------>           
+  Step 1  : First create resource for Post
+          like  rails g resource post (post is name of model)
+
+  Step 2  : Creat Post controller in controller/api/post_controller.rb
+
+            module Api
+              class PostsController < ApplicationController
+                respond_to :json
+
+                def index
+                  respond_with Post.all
+                end
+                def show
+                  respond_with Post.find(params[:id])
+                end
+                def create
+                  respond_with Post.create(post_params)
+                end
+                def update
+                  respond_with Post.update(params[:id], post_params)
+                end
+                def destroy
+                  respond_with Post.update(params[:id])
+                end
+                
+                private
+                  def post_params
+                    params.require(:post).permit(:title, :desc)
+                  end
+              end
+            end
+
+  Step 3  : Create routes for our post controller
+          like  namespace :api do
+                  resources :posts, :defaults => { :format => 'json' }
+                  resources :users, :defaults => { :format => 'json' }
+                end
+          api is our folder name that we create in controller folder here we create api folder so we take api as namespace.
+
+  Step 4  : Create view for insert data & show your output result (GUI)
+          Create one html file in which we create html template
+
+          like :
+
+          <a name="post_show"><br>
+            Parameters:<br>
+            <table width="100%" cellpadding="4" cellspacing="0" border="1" bordercolor="#808080">       
+              <thead>
+                <tr bgcolor="#eeeeee">
+                  <td> Field name </td>
+                  <td> Description </td>
+                  <td>Example</td>
+                  <td>Req</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td width="140">Post</td>
+                  <td>Post Id To Find</td>
+                  <td width="210"><input id="post_id" name="post_id" size="40" type="text" value=""></td>
+                  <td width="30"> *</td>
+                </tr>
+              </tbody>
+            </table>
+            Example call <br>
+          
+            <textarea id="example_signup" style="font-family: Courier New" rows="4" cols="90">http://localhost:3000/api/posts/:id
+            </textarea><br>
+            <input type="button" id="button_cars" onclick="sendCurlRequest();" value="Execute"><br>
+
+  Step 5  : After creating a html we make ajax call that accept value from textbox and send to api and returns response
+            Sample of Ajax call
+
+            <script type="text/javascript">
+              function sendCurlRequest(){
+                var get_value = $("#post_id").val();
+
+                $.ajax({
+                  type: 'GET',
+                  url: "/api/posts/" + get_value,
+                  data: get_value,
+                  contentType:"application/json",
+                  success: function(data){
+                    $(".test").html(JSON.stringify(data));
+                  },
+                  error: function(xhr, ajaxOptions, thrownError){
+                    $(".test").append(xhr.status, " " ,thrownError);
+                  },
+                  complete: function(data){
+                    console.log("call completed");
+                  }
+                });
+              }
+            </script>
+
+  Step 6  : Now your Show is ready. Try it.
+
+
+ <------------------------------------- 2  For Create  ------------------------------------------------------>
+
+  Step 1 :  If You have already create resource & controller than fallow form below otherwise first follow above section "For show" first 4 step and than try below
+
+  Step 2 :  Create view for inset & show your output result (GUI)
+          Create one html file in which we create html template  
+
+          <table width="100%" cellpadding="4" cellspacing="0" border="1" bordercolor="#808080">       
+            <thead>
+              <tr bgcolor="#eeeeee">
+                <td> Field name </td>
+                <td> Description </td>
+                <td>Example</td>
+                <td>Req</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td width="140">Post</td>
+                <td>Post Title</td>
+                <td width="210"><input id="post_title" name="post_title" size="40" type="text" value=""></td>
+                <td width="30"> *</td>
+              </tr>
+              <tr>
+                <td width="140">Post</td>
+                <td>Post Description</td>
+                <td width="210"><input id="post_description" name="post_description" size="40" type="text" value=""></td>
+                <td width="30"> *</td>
+              </tr>
+            </tbody>
+          </table>
+          Example call <br>
+          <textarea id="example_signup" style="font-family: Courier New" rows="4" cols="90">http://localhost:3000/api/posts</textarea><br>
+          <input type="button" id="button_cars" onclick="createPost();" value="Execute"> <br>
+
+  Step 3  : After creating a html we make ajax call that accept value from textbox and send to api and returns response
+
+          function createPost(){
+            var get_title = $("#post_title").val();
+            var get_desc = $("#post_description").val();
+
+            var s = {
+              "post":
+                {
+                  "title":get_title,
+                  "desc":get_desc
+                }
+              };
+
+            $.ajax({
+              type: 'POST',
+              url: "/api/posts",
+              data: JSON.stringify(s),
+              contentType:"application/json",
+              success: function(data){
+                $(".test").html(JSON.stringify(data));
+              },
+              error: function(xhr, ajaxOptions, thrownError){
+                $(".test").append(xhr.status, " " ,thrownError);
+              },
+              complete: function(data){
+                console.log("call completed");
+              }
+            });
+          }
+
+  Step 4  : Now your Show is ready. 

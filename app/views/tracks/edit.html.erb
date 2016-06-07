@@ -1,0 +1,280 @@
+<%= javascript_include_tag "jquery.MultiFile.js" %>
+	
+<style>
+.edit_extra_image, .edit_info_image{
+background-color: #808080;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.remove_track_image, .edit_info_image{
+	cursor: pointer;
+}
+
+.MultiFile-list{ 
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+		
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+	
+	
+</style>
+
+<%= form_for @client_track, :url =>  {:action => "update", :id => @client_track.id}, :html => {:id => "edit_client_track"} do |f| %>
+	
+	<% if @client_track.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% error_no=1 %>
+		<% @client_track.errors.full_messages.each do |msg| %>		
+				<p><%= "#{error_no}) #{msg}" %></p>	
+				<% error_no = error_no + 1 %>	
+		<% end %>
+	</div>
+	<% end %>
+	
+	<fieldset>
+		<legend><%= t :EditTrack %></legend>
+		<%= f.hidden_field :fk_client_id %>
+		
+		<label><%= t :TrackDisplayID %>: </label>
+		<%= f.text_field :display_id, :class => "narrow", :style => "width:5% !important;"  %>
+		<br />
+			
+		<label><%= t :TrackName %>: </label>
+		<%= f.text_field :track_name, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+		
+		<label><%= t :Price %>: </label>
+		<%= f.select :fk_product_id, ProductPrice.get_track_price(@client_track.fk_client_id).collect {|m| [m.combined_value, m.id] }, {:prompt => t('Price'), :id => "product_id"}, :style => "margin-top:5px;"  %>
+		<br />
+		
+		<label><%= t :TrackTip %>: </label>
+		<%= f.text_area :track_tip, :class => "narrow", :style => "width:30% !important;", :rows => 5 %>
+		<br />
+		
+		<label><%= t :Description %>: </label>
+		<%= f.text_area :description, :class => "narrow", :style => "width:30% !important;", :rows => 5 %>
+		<br />
+		
+		<label><%= t :NumberOfTurns %>: </label>
+		<%= f.text_field :no_turns, :class => "narrow", :style => "width:5% !important;"  %>
+		<br />
+		
+		<label><%= t :TrackLastMod %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@client_track.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />		
+		
+		<label><%= t :TrackImage %>: </label>
+		<a href="<%= @client_track.track_image %>" target="_blank" tooltip="<%= t :TrackImage %>"  >
+			<img src="<%= Protrack::Configuration['image_server_ip'] + "" + @client_track.track_image %>" width="80" height="80" alt="<%= t :TrackImage %>" style="margin-top:5px;" />
+		</a>
+		
+		<div style="clear:both"></div>
+		<label></label>
+		<%= f.file_field :track_image, :height => "80px;", :width => "80px", :accept => "image/*" %>				
+		<br />
+		
+		<label><%= t :ExtraImage %>: </label>
+		<div>
+			<% if @client_track_image.empty? == false %> 
+				<% @client_track_image.each do |client_track_image| %> 
+					<div class="edit_extra_image" id="div_remove_track_image_<%= client_track_image.id %>">
+						<a href="<%= Protrack::Configuration['image_server_ip'] + "" + client_track_image.track_image %>" target="_blank" tooltip="<%= t :ExtraImage %>" >
+							<img src="<%= Protrack::Configuration['image_server_ip'] + "" + client_track_image.track_image %>" width="80" height="80" alt="<%= t :ExtraImage %>" />
+						</a>
+						<br/>
+						<input type="button" class="remove_track_image" value="<%= t :Remove %>" id="remove_track_image_<%= client_track_image.id %>" tabindex="5" />
+					</div>
+				<% end %>
+			<% end %>
+		</div>		
+		<br style="clear:both;" />
+
+
+		<label></label>
+		<%= f.file_field :extra_image, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "image/png,jpeg,jpg" %>				
+		
+				
+		<br style="clear:both;" />
+		<label><%= t :TrackInfoImage %>: </label>
+		<a href="<%= Protrack::Configuration['image_server_ip'] + "" + @client_track.track_info_image %>" target="_blank" tooltip="<%= t :TrackInfoImage %>" >
+			<img src="<%= Protrack::Configuration['image_server_ip'] + "" + @client_track.track_info_image %>" width="80" height="80" alt="<%= t :TrackInfoImage %>" />
+		</a>
+		<div style="clear:both"></div>
+		<label></label>
+		<%= f.file_field :track_info_image, :height => "80px;", :width => "80px", :accept => "image/*" %>	
+		<br style="clear:both;" />
+			
+		<label><%= t :TrackOverviewPageImage %>: </label>
+		<div>
+			<% if @client_track_info_image.empty? == false %> 
+				<% @client_track_info_image.each do |client_track_info_image| %> 
+					<div class="edit_info_image" id="div_remove_track_info_image_<%= client_track_info_image.id %>">
+						<a href="<%= Protrack::Configuration['image_server_ip'] + "" + client_track_info_image.track_image %>" target="_blank" tooltip="<%= t :TrackOverviewPageImage %>" >
+							<img src="<%= Protrack::Configuration['image_server_ip'] + "" + client_track_info_image.track_image %>" width="80" height="80" alt="<%= t :TrackOverviewPageImage %>" />
+						</a>
+						<br/>
+						<input type="button" class="remove_track_info_image" value="<%= t :Remove %>" id="remove_track_info_image_<%= client_track_info_image.id %>" tabindex="5" />
+					</div>
+				<% end %>
+			<% end %>
+		</div>		
+		<br style="clear:both;" />
+		<label></label>
+		<%= f.file_field :track_overview_page_image, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "image/png,jpeg,jpg" %>				
+		<br style="clear:both;" />
+
+        <label><%= t :Note %>: </label>
+        <%= f.text_area :note, :value => "#{@client_track.note}",rows: '3', cols: '15',  :class => "narrow", :style => "width:30% !important;"  %>
+        <br style="clear:both;" />
+
+        <label><%= t :timing_url %>: </label>
+        <%= f.text_field :timing_url, :value => "#{@client_track.timing_url}",  :class => "narrow", :style => "width:30% !important;" %>
+        <br style="clear:both;" />
+
+        <!--<label><%#= t :media_url %>: </label>-->
+        <!--<%#= f.text_field :media_url, :value => "#{@client_track.media_url}",  :class => "narrow", :style => "width:30% !important;" %>-->
+        <!--<br style="clear:both;" />-->
+
+        <label><%= t :weather_url %>: </label>
+        <%= f.text_field :weather_url, :value => "#{@client_track.weather_url}",  :class => "narrow", :style => "width:30% !important;" %>
+        <br style="clear:both;" />
+
+        <label><%= t :lapVideo_url %>: </label>
+        <%= f.text_field :lap_video_url, :value => "#{@client_track.lap_video_url}",  :class => "narrow", :style => "width:30% !important;" %>
+        <br style="clear:both;" />
+
+        <label><%= t :schedule_pdf_url %>: </label>
+        <%#= f.text_field :schedule_pdf_url, :value => "#{@client_track.schedule_pdf_url}",  :class => "narrow", :style => "width:30% !important;" %>
+	  	<%= @client_track.schedule_pdf_url.split('/').last unless @client_track.schedule_pdf_url.nil? %>
+	  	<%= f.file_field :schedule_pdf_url, :height => "80px;", :width => "80px", :accept => "application/pdf" %>
+
+	    <br style="clear:both;" />
+		
+		<label ></label>			
+		<input  class="green"  type="button" value="<%= t :Save %>" id="save_track" tabindex="4" />			
+		<input  class="gray"  type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index" %>" tooltip="<%= t :Index %>" >
+			<input  class="red proccessing"  type="button" value="<%= t :Cancel %>" id="cancel_track" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {	 
+
+  $('#client_track_no_turns').change(function(){
+        if(parseInt(this.value).toFixed(0) == 'NaN')
+           this.value = "";
+        else            
+         this.value = parseInt(this.value).toFixed(0); 
+    });
+	
+	  $(".remove_track_image").click(function() {	
+			if(confirm("Are you sure you wish to delete this image?") == false) return false;   
+
+			var image_id=  $(this).attr('id').replace('remove_track_image_', '');
+			$("#middlepart").mask("Processing...");	
+			
+			$.ajax({
+				url: "<%= url_for :action => "delete_track_extra_image_ajax" %>",
+				type: 'post',				
+				data: "id=" + image_id + "",
+				dataType: 'json',
+				beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+				success: function(json) {
+					if(json.resp_code == '200') {
+						alert(json.message );						
+						$("#div_remove_track_image_" + image_id).remove();	
+					} else {
+						alert(json.message);
+						//load_famille();
+					}
+				}
+			});							
+			return false;
+	  });	  
+	  
+	   $(".remove_track_info_image").click(function() {	
+			if(confirm("Are you sure you wish to delete this image?") == false) return false;   
+
+			var image_id=  $(this).attr('id').replace('remove_track_info_image_', '');
+			$("#middlepart").mask("Processing...");	
+			
+			$.ajax({
+				url: "<%= url_for :action => "delete_track_extra_image_ajax" %>",
+				type: 'post',				
+				data: "id=" + image_id + "",
+				dataType: 'json',
+				beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+				success: function(json) {
+					if(json.resp_code == '200') {
+						alert(json.message );						
+						$("#div_remove_track_info_image_" + image_id).remove();	
+					} else {
+						alert(json.message);
+						//load_famille();
+					}
+				}
+			});							
+			return false;
+	  });
+  
+	  $.ajaxSetup({
+		  headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		  }
+	   });
+		
+      $(".edit_client_track").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	  
+	   $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+	  
+	  $("#save_track").click(function(){		 
+		  $("#middlepart").mask("Processing...");
+		  
+		 // var  oOutput = document.getElementById("edit_client_track"),
+	      oData = new FormData(document.forms.namedItem("edit_client_track"));
+					
+		  var oReq = new XMLHttpRequest();
+		  oReq.open("POST", "<%= url_for :action => "update_ajax", :id => @client_track.id %>", true);
+		  oReq.onload = function(oEvent) {	
+			
+			var data=jQuery.parseJSON(oReq.response);			
+			if(data.resp_code == "200")
+			{
+				alert(data.message); 	
+				window.location.href = "<%= url_for :action => "index" %>";
+				return false;
+			}
+			else
+			{
+				$("#middlepart").unmask();	
+				alert(data.message);
+				return false;				
+			}
+			
+		  };
+		  oReq.send(oData);		 
+    });
+	  
+});
+</script>

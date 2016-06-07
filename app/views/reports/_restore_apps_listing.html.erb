@@ -1,0 +1,78 @@
+
+<table cellspacing="0" cellpadding="0" width="100%" class="listing" id="restore_apps_listing"  >
+	 <thead>
+		<tr>
+            <th class="capt" colspan="4">
+				<%= t :RestoreAppsHistoryReport %> 											
+			</th>
+			
+		</tr>
+		
+		<tr class="ftr">				
+			<th style="text-align:left;">		
+				<%= t('TrackName') %>
+			</th>	
+			<th style="text-align:left;">		
+				<%= t('ServedAt') %>
+			</th>			
+			<th>		
+				<%= t('Action') %>
+			</th>	
+		</tr>
+	</thead>
+	
+	<% alt_row=0 %>
+	<% sr_no=0 %>
+	<% if @user_restore_app_info.nil? || @user_restore_app_info.count == 0  %>
+		<tr>
+			<td colspan="3" style="border: none;"><%= t :NoRecordFound %></td>
+		</tr>
+	<% else %>
+		<% @user_restore_app_info.each do |f| %>		
+		<% if alt_row==0 %>
+			<% alt_row=1 %>
+			<tr id="node-<%= f.id %>">
+		<% else %>
+			<tr id="node-<%= f.id %>" class="tb_grey">
+			<% alt_row=0 %>
+		<% end %>				
+			<td  align="center" valign="middle">	  		
+			   <div id="track_name<%= f.id %>" class="" style="text-align:left;">
+					<%= f.track_name %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="create_at_<%= f.id %>" class="" style="text-align:left;">
+					<%= f.create_at.strftime("%m-%d-%Y %H:%M:%S") %>
+			   </div>   
+			</td>
+		
+			<td  align="center" valign="middle">	  		
+			   <div id="action_<%= f.id %>" class="" style="">				
+					<a class="publish processing" href="<%= url_for :action => "view_restore_app" , :id => f.id %>"><%= t :View %> </a>
+				</div>   
+			</td>
+			
+		</tr>
+		<% end %>	
+	<% end %>	
+	<tfoot>	
+		<tr>		
+			<th colspan="5" class="ftr">
+				<div class="paging_cntr">
+					<!--start  Pagination --> 
+					<% if @user_restore_app_info.count > 0 %>
+						<div style="float:left;  margin-right:15px;"><%=  will_paginate @user_restore_app_info %>
+						</div>
+					<% end %>
+					<!-- end Pagination -->							
+				</div>			
+			</th>		
+		</tr>
+	</tfoot>	
+	
+	
+</table>
+<!-- End cs_slider -->
+<%=hidden_field_tag "pageno", params[:page]%>
+

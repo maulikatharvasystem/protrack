@@ -1,0 +1,77 @@
+
+<table cellspacing="0" cellpadding="0" width="100%" class="listing" id="tracks_listing"  >
+	 <thead>
+		<tr>
+            <th class="capt" colspan="5" >
+				<%= t :Trackprice %> 
+			</th>
+		</tr>
+		
+		<tr class="ftr">				
+			<th style="text-align:left;">		
+				<%= t('ProductID') %>
+			</th>
+			<th  style="text-align:right;">		
+				<%= t('Price') %>
+			</th>						
+			<th>		
+				<%= t('Action') %>
+			</th>	
+		</tr>
+	</thead>
+	
+	<% alt_row=0 %>
+	<% sr_no=0 %>
+	<% if @track_price.nil? || @track_price.count == 0  %>
+		<tr>
+			<td colspan="3" style="border: none;"><%= t :NoRecordFound %></td>
+		</tr>
+	<% else %>
+		<% @track_price.each do |f| %>		
+		<% if alt_row==0 %>
+			<% alt_row=1 %>
+			<tr id="node-<%= f.id %>">
+		<% else %>
+			<tr id="node-<%= f.id %>" class="tb_grey">
+			<% alt_row=0 %>
+		<% end %>				
+			
+			<td  align="center" valign="middle"  style="text-align:left;">	  		
+			   <div id="price_<%= f.id %>" class="" style="">
+					<%= f.ios_product_id %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle"  style="text-align:right;">	  		
+			   <div id="track_name<%= f.id %>" class="" style="">
+					$<%= f.ios_price %>
+			   </div>   
+			</td>	
+			<td  align="center" valign="middle">	  		
+			   <div id="action_<%= f.id %>" class="" style="">
+					<a class="edit" href="<%= url_for :action => "edit", :id => f.id %>"><%= t :Edit %> </a>
+					<a class="publish" href="<%= url_for :action => "view" , :id => f.id %>"><%= t :View %> </a>
+					<a class="delete" href="<%= url_for  :action => "view" , :id => f.id %>"><%= t :Delete %> </a>
+			   </div>   
+			</td>
+			
+		</tr>
+		<% end %>
+	<% end %>	
+	<tfoot>	
+		<tr>	
+			<th colspan="3" class="ftr">
+				<div class="paging_cntr">
+					<!--start  Pagination --> 
+					<% if @track_price.count > 0 %>
+						<div style="float:left;  margin-right:15px;"><%=  will_paginate @track_price %>
+						</div>
+					<% end %>
+					<!-- end Pagination -->							
+				</div>			
+			</th>		
+		</tr>
+	</tfoot>	
+</table>
+<!-- End cs_slider -->
+<%=hidden_field_tag "pageno", params[:page]%>
+

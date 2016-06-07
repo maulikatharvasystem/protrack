@@ -1,0 +1,34 @@
+
+<!-- LOGIN FORM -->
+<form name="loginform" class="loginform" action="<%= url_for :action => 'attempt_login', :controller => 'users' %>" method="post">
+	<label>Email:</label>
+	<input type="email" name="[user][email]" id="userlogin" class="input" value="" required="required" size="20" tabindex="101" />
+	
+	<div style="clear:both; height:5px;"></div>	
+	
+	<label>Password:</label>
+	<input type="password" name="[user][password]" id="userpass" class="input" value="" required="required" size="20" tabindex="102" />
+	
+	<div style="clear:both; height:5px;"></div>	
+	
+	<label style="both:clear;">User Access Type:</label> <br/>
+	<select id="user_type" name="[user][user_type]" tabindex="103" style="float:left;width:100px;"> 
+		<option value="1">Admin </option>
+		<option value="2">Client </option>
+		<option value="3">Race Engineer </option>
+	</select>
+	
+	<div style="clear:both; height:10px;"></div>	
+	
+	<p class="remember">
+		<label>
+			<input style="float:left;" name="rememberme" type="checkbox" id="remember" value="remember"    tabindex="104" />
+			
+			<span style="float:left; margin-top:-2px; margin-left:1px;">Remember Me</span>
+		</label>
+	</p>
+	<p class="submit">
+		<input type="submit" name="submit" value="Log In" tabindex="105" />
+	</p>
+</form>	
+

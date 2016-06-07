@@ -1,0 +1,197 @@
+<%= javascript_include_tag "jquery.MultiFile.js" %>
+	
+<style>
+.edit_session_image{
+background-color: #808080;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.remove_session_image{
+	cursor: pointer;
+}
+
+.MultiFile-list{ 
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+		
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+	
+	
+</style>
+
+<%= form_for @track_session, :url =>  {:action => "update", :id => @track_session.id}, :html => {:id => "edit_track_session"} do |f| %>
+	
+	<% if @track_session.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% error_no=1 %>
+		<% @track_session.errors.full_messages.each do |msg| %>		
+				<p><%= "#{error_no}) #{msg}" %></p>	
+				<% error_no = error_no + 1 %>	
+		<% end %>
+	</div>
+	<% end %>
+	
+	<fieldset>
+		<legend><%= t :EditTrackSession %></legend>
+		<%= f.hidden_field :fk_engn_id %>
+		
+		<label><%= t :SessionName %>: </label>
+		<%= f.text_field :name, :class => "narrow", :style => "width:5% !important;"  %>
+		<br />
+						
+		<label><%= t :Date %>: </label>
+		<%= f.text_field :session_date, :value => "#{@track_session.session_date.strftime("%m-%d-%Y")}", :class => "narrow", :style => "width:10% !important;"  %>		
+		<br />
+		
+		<label><%= t :Driver %>: </label>		
+		<%= f.select :fk_driver_id, DeviceUser.get_device_user_list(@track_session.fk_client_id).collect {|m| [m.name, m.id] }, {:prompt => t('Driver'), :id => "driver_id"}, :style => "margin-top:5px;"  %>
+		<br />		
+		
+		<label><%= t :EngineerName %>: </label>
+		<%= f.text_field :engineer_name, :disabled => true,  :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+		
+		<label><%= t :Championship %>: </label>
+		<%= f.text_field :championship, :class => "narrow", :style => "width:60% !important;"  %>		
+		<br />
+		
+		<label><%= t :Circuit %>: </label>
+		<%= f.text_field :circuit, :class => "narrow", :style => "width:60% !important;"  %>		
+		<br />
+		
+		<label><%= t :Event %>: </label>
+		<%= f.text_field :event, :class => "narrow", :style => "width:60% !important;"  %>		
+		<br />		
+			
+		<label><%= t :TrackLastMod %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@track_session.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+		
+		<label><%= t :SessionImage %>: </label>
+		<div>
+			<% if @track_session_image.empty? == false %> 
+				<% @track_session_image.each do |track_session_image| %> 
+					<div class="edit_session_image" id="div_remove_session_image_<%= track_session_image.id %>">
+						<a href="<%= Protrack::Configuration['image_server_ip'] + "" + track_session_image.session_image %>" target="_blank" tooltip="<%= t :TrackSession %>" >
+							<img src="<%= Protrack::Configuration['image_server_ip'] + "" + track_session_image.session_image %>" width="80" height="80" alt="<%= t :TrackSession %>" />
+						</a>
+						<br/>
+						<input type="button" class="remove_session_image" value="<%= t :Remove %>" id="remove_session_image_<%= track_session_image.id %>" tabindex="5" />
+					</div>
+				<% end %>
+			<% end %>
+		</div>		
+		<br style="clear:both;" />
+		<label></label>
+		<%= f.file_field :session_image, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "image/png,jpeg,jpg" %>				
+		<br style="clear:both;" />	
+		
+		
+		<label ></label>			
+		<input  class="green"  type="button" value="<%= t :Save %>" id="save_session" tabindex="4" />			
+		<input  class="gray"  type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index",:id=> @track_session.fk_engn_id  %>" tooltip="<%= t :Index %>" >
+			<input  class="red proccessing"  type="button" value="<%= t :Cancel %>" id="cancel_session" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {	 
+
+	$( "#track_session_session_date" ).datepicker();
+    $( "#track_session_session_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	$('#track_session_session_date').attr('value', "<%= @track_session.session_date %>");
+
+	 
+  $('#client_track_no_turns').change(function(){
+        if(parseInt(this.value).toFixed(0) == 'NaN')
+           this.value = "";
+        else            
+         this.value = parseInt(this.value).toFixed(0); 
+    });
+	
+	  $(".remove_session_image").click(function() {	
+			if(confirm("Are you sure you wish to delete this image?") == false) return false;   
+
+			var image_id=  $(this).attr('id').replace('remove_session_image_', '');
+			$("#middlepart").mask("Processing...");	
+			
+			$.ajax({
+				url: "<%= url_for :action => "delete_track_session_image_ajax" %>",
+				type: 'post',				
+				data: "id=" + image_id + "",
+				dataType: 'json',
+				beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+				success: function(json) {
+					if(json.resp_code == '200') {
+						alert(json.message );						
+						$("#div_remove_session_image_" + image_id).remove();	
+					} else {
+						alert(json.message);
+						//load_famille();
+					}
+				}
+			});							
+			return false;
+	  });	  
+	  
+	  $.ajaxSetup({
+		  headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		  }
+	   });
+		
+      $(".edit_track_session").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	  
+	   $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+	  
+	  $("#save_session").click(function(){		 
+		  $("#middlepart").mask("Processing...");
+		  
+		 // var  oOutput = document.getElementById("edit_track_session"),
+	      oData = new FormData(document.forms.namedItem("edit_track_session"));
+					
+		  var oReq = new XMLHttpRequest();
+		  oReq.open("POST", "<%= url_for :action => "update_ajax", :id => @track_session.id %>", true);
+		  oReq.onload = function(oEvent) {	
+			
+			var data=jQuery.parseJSON(oReq.response);			
+			if(data.resp_code == "200")
+			{
+				alert(data.message); 	
+				window.location.href = "<%= url_for :action => "index",:id=>@track_session.fk_engn_id %>";
+				return false;
+			}
+			else
+			{
+				$("#middlepart").unmask();	
+				alert(data.message);
+				return false;				
+			}
+			
+		  };
+		  oReq.send(oData);		 
+    });
+	  
+});
+</script>

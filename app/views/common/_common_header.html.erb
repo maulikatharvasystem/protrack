@@ -1,0 +1,47 @@
+<div id="header">
+<div style="float:left;"> <img src="/assets/design_images/logonew.png" width="337" height="112" class="logo" alt="ProManager V2.0" /> </div>
+<div><span style="float:right; padding-top:10px; width:auto;"> Welcome <%= session[:user_name].to_s || "Un Known" %> / <a href="<%= url_for :action => 'logout', :controller => 'users' %>">Logout</a><br />
+        <small>Last logged in at <strong><%= session[:last_logged].strftime("%m-%d-%Y %H:%M:%S") || "Not found" %> </strong> </small> 
+		
+		<% admin_id = session[:admin_id] || 0  %>
+		<% if admin_id.to_i > 0  %>
+			<% proxy_client_id = session[:proxy_client_id] || 0  %>
+			<div style="clear:both;">&nbsp;</div>
+			<div style="float:left; padding-top:2px;" >Change Client: &nbsp; </div><br/>
+			<%= select_tag "proxy_client_id", options_from_collection_for_select(Client.get_all_client_list(), "id", "client_name",proxy_client_id), {:prompt => "--Change Client--", :id => "proxy_client_id" }%>
+					
+		<% end %>
+
+        <% engn_id = session[:engn_id] || 0  %>
+        <% if engn_id.to_i > 0  %>
+            <div style="clear:both;">&nbsp;</div>
+			<div style="float:left; padding-top:2px;" >Race Engineer Reports: &nbsp; </div><br/>
+            <%= select_tag "proxy_race_engineer_id", options_from_collection_for_select(ClientTrack.get_all_client_tracks(), "id", "track_name"), {:prompt => "--Change Client Track--", :id => "proxy_race_engineer_id" }%>
+        <% end %>
+ </span>
+</div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function() {	  
+	
+	 $('#proxy_client_id').change(function() {
+		 //alert("change select"); 
+		var sel_client=$(this).val();			 
+		 $("#middlepart").mask("Processing...");	
+	    	
+		 window.location.href = '/tracks/index/' + sel_client ;
+      });
+    $('#proxy_race_engineer_id').change(function() {
+        //alert("change select");
+        var set_client_track = $(this).val();
+        $("#middlepart").mask("Processing...");
+
+        window.location.href = '/race_engineer_reports/index/' + set_client_track ;
+    });
+	 
+	
+});
+
+</script>

@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  session_report: MyString
+  fk_session_id: 1
+  status_code: 1
+  report_code: 1
+
+two:
+  session_report: MyString
+  fk_session_id: 1
+  status_code: 1
+  report_code: 1

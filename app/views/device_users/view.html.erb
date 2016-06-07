@@ -1,0 +1,49 @@
+<%= form_for @device_user, :url =>  {:action => "index", :id => @device_user.id} do |f| %>		
+	<fieldset>
+		<legend><%= t :ViewDeviceUser %></legend>
+		
+		<label><%= t :FirstName %>: </label>
+		<%= f.text_field :first_name, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+			
+		<label><%= t :LastName %>: </label>
+		<%= f.text_field :last_name, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>		
+		<br />
+		
+		<label><%= t :Phone %>: </label>
+		<%= f.text_field :phone, :class => "narrow", :style => "width:20% !important;", :disabled => true  %>
+		<br />
+		
+		<label><%= t :Email %>: </label>
+		<%= f.text_field :email, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>
+		<br />
+	
+		<label><%= t :LastModified %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@device_user.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "width:20% !important;", :disabled => true  %>
+		<br />		
+				
+		<label ></label>	
+		<a href="<%= url_for :action => "edit", :id => @device_user.id %>" tooltip="<%= t :Edit %>" >
+			<input class="green processing"  type="button" value="<%= t :Edit %>" id="edit_client" tabindex="5" />
+		</a>
+			  
+		<a href="<%= url_for :action => "delete", :id => @device_user.id %>" tooltip="<%= t :Delete %>" >
+			<input class="gray"  type="button" value="<%= t :Delete %>" id="delete_client" tabindex="5" />
+		</a>
+		
+		<a href="<%= url_for :action => "index_flash_clear" %>" tooltip="<%= t :Index %>" >
+			<input class="red processing"  type="button" value="<%= t :Cancel %>" id="cancel_client" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+ <script type="text/javascript">
+$(document).ready(function() {	
+	$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	 });
+
+});
+ </script>

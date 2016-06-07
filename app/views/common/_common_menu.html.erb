@@ -1,0 +1,95 @@
+<div id="menu" >
+  <ul id="navmenu">
+    <!-- <li style="float:right;" class="current"><a href="#">Visit Site</a></li> -->
+
+    <% client_id = session[:client_id] || 0  %>
+    <% admin_id = session[:admin_id] || 0  %>
+    <% engn_id = session[:engn_id] || 0  %>
+    <% proxy_client_id = session[:proxy_client_id] || 0  %>
+
+    <% if (admin_id.to_i > 0 && proxy_client_id.to_i <= 0) || client_id.to_i > 0 %>
+        <li><a class="proccessing" href="<%= url_for :controller => "dashboard", :action => "index" %>" title="Dashboard of Protrack Panel">Dashboard</a></li>
+    <% end %>
+
+    <% if (client_id.to_i > 0) %>
+        <li><a  class="proccessing" href="<%= url_for :controller => "device_users", :action => "index" %>" title="Device user of Protrack Panel">Driver Accounts</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "device_users", :action => "index" %>" title="View Device user of Protrack Panel">View Driver Accounts</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "device_users", :action => "add" %>" title="Add new Device user of Protrack Panel">Add Driver Account </a></li>
+          </ul>
+        </li>
+        <li><a  class="proccessing" href="<%= url_for :controller => "race_engineers", :action => "index" %>" title="Device user of Protrack Panel">Race Engineers</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "race_engineers", :action => "index" %>" title="View Race Engineer of Protrack Panel">View Race Engineers</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "race_engineers", :action => "add" %>" title="Add new Race Engineer of Protrack Panel">Add Race Engineer </a></li>
+          </ul>
+        </li>
+    <% end %>
+
+    <% if (admin_id.to_i > 0 && proxy_client_id.to_i > 0) %>
+        <li><a  class="proccessing" href='<%= url_for :controller => "dashboard", :action => "back_to_admin" %>' title="Return to Admin of Protrack Panel">Back to Admin</a></li>
+    <% end %>
+
+    <% if (admin_id.to_i > 0 && proxy_client_id.to_i <= 0) %>
+        <li><a  class="proccessing" href="<%= url_for :controller => "clients", :action => "index" %>" title="Clients of Protrack Panel">Clients</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "clients", :action => "index" %>" title="View clients of Protrack Panel">View Clients</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "clients", :action => "add" %>" title="Add new client of Protrack Panel">Add Client</a></li>
+          </ul>
+        </li>
+    <% elsif (client_id.to_i > 0) %>
+        <li><a  class="proccessing" href="<%= url_for :controller => "tracks", :action => "index" %>" title="Tracks of Protrack Panel">Tracks</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "tracks", :action => "index" %>" title="View tracks of Protrack Panel">View Tracks</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "tracks", :action => "add" %>" title="Add new track of Protrack Panel">Add Track</a></li>
+          </ul>
+        </li>
+        <li><a  class="proccessing" href="<%= url_for :controller => "track_prices", :action => "index" %>" title="Track prices of Protrack Panel">Track Prices</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "track_prices", :action => "index" %>" title="View track prices of Protrack Panel">View Track Prices</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "track_prices", :action => "add" %>" title="Add new track price of Protrack Panel">Add Track price</a></li>
+          </ul>
+        </li>
+        <!---  <li><a  class="proccessing" href="<%= url_for :controller => "track_turns", :action => "index" %>" title="Track turns of Protrack Panel">Track Turn</a>
+							<ul>
+								<li><a  class="proccessing" href="<%= url_for :controller => "track_turns", :action => "index" %>" title="view track turns of Protrack Panel">View Track Turns</a></li>                               
+								<li><a  class="proccessing" href="<%= url_for :controller => "track_turns", :action => "add" %>" title="Add new track turns of Protrack Panel">Add Track Turn</a></li>  
+								<li><a  class="proccessing" href="<%= url_for :controller => "track_turns", :action => "sort" %>" title="Sort track turns of Protrack Panel">Sort Track Turns</a></li>   								
+							</ul>
+					</li> -->
+        <li title="Reports of Protrack Panel"><a>Reports</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "reports", :action => "transaction_history" %>" title="Report of transactions history of Protrack Panel">Transactions History Report</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "reports", :action => "restore_apps_history" %>" title="Report of restore apps of Protrack Panel">Restore Apps Report</a></li>
+          </ul>
+        </li>
+
+    <% elsif (engn_id.to_i > 0) %>
+        <li><a  class="proccessing" href="<%= url_for :controller => "track_sessions", :action => "index" %>" title="Track sessions of Protrack Panel">Track Sessions</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "track_sessions", :action => "index" %>" title="View track sessions of Protrack Panel">View Track Sessions</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "track_sessions", :action => "add" %>" title="Add new track session of Protrack Panel">Add Track Session</a></li>
+          </ul>
+        </li>
+        <li>
+          <%= link_to('Race Report', race_engineer_reports_path, :class => 'proccessing', :title => 'Race Report of Protrack Panel') %>
+          <ul>
+            <li><%= link_to('View Race Report', race_engineer_reports_path, :class => 'proccessing', :title => 'View Race Reports of Protrack Panel') %></li>
+            <li><%= link_to('Add Race Report', new_race_engineer_report_path, :class => 'proccessing', :title => 'Add new Race Report of Protrack Panel') %></li>
+          </ul>
+        </li>
+    <% end %>
+
+    <% if (admin_id.to_i > 0 && proxy_client_id.to_i <= 0) || client_id.to_i > 0 %>
+        <li title="Settings of Protrack Panel"><a>Settings</a>
+          <ul>
+            <li><a  class="proccessing" href="<%= url_for :controller => "users", :action => "change_profile" %>" title="Edit profile of Protrack Panel">Edit Profile</a></li>
+            <li><a  class="proccessing" href="<%= url_for :controller => "users", :action => "change_password" %>" title="Change password of Protrack Panel">Change Password</a></li>
+            <% if (admin_id.to_i > 0 && proxy_client_id.to_i <= 0) %>
+                <li><%= link_to('Manage Urls', manage_urls_path, :class => 'proccessing', :title => 'Manage Urls') %></li>
+            <% end %>
+          </ul>
+        </li>
+    <% end %>
+  </ul>
+</div>

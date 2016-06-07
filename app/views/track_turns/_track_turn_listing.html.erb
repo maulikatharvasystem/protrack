@@ -1,0 +1,172 @@
+<div id="div_track_image" class="track_image_area " style="float:left;">
+	<div class="div_dots drag-container">
+		<% tooltip_text='' %>
+		<% if @track_turn_notes.nil? || @track_turn_notes.count == 0  %>
+		<% else %>
+			<% @track_turn_notes.each do |f| %>		
+				<% if (f.fk_plactype_id == 1) %>
+					<% image_name="red1.png" %>
+					<% tooltip_text='Turn: ' + f.tn_name.to_s + '' %>
+				<% else %>
+					<% image_name="green1.png" %>
+					<% tooltip_text='Note: ' + f.tn_name.to_s + '' %>
+				<% end %>
+				
+				<% if (f.status_code == 401) %>
+					<% image_name="gray.png" %>
+					<% tooltip_text='Active ' + tooltip_text + '' %>
+				<% else %>
+					<% tooltip_text='Inactive ' + tooltip_text + '' %>
+				<% end %>
+				
+				<div title="<%= tooltip_text %>" name="<%= f.tn_name %>" id="image_dot_<%=f.pk_tn_id.to_s %>" class="image_dot drag-element" style="left: <%= f.x_pos %>px; top: <%= f.y_pos %>px; ">
+					<a class="dot_link"><img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/<%= image_name %>" /> </a>
+					<div id="dot_info_<%=f.pk_tn_id.to_s %>" class="modal" style="display:none;">
+						<table>
+							<tr> <td class="text_right"> Turn Step ID:  </td><td class="text_right"> <%= f.tn_step_id %> </td> </tr>	
+							<tr> <td class="text_right"> Turn Note: </td><td class="text_right"> <%= f.tn_note %> </td> </tr>	
+							<tr>
+								<td col-span="2">
+								 <div class="i_btn">
+										<% if (f.status_code == 401) %>
+											<% active_image_name="clo.png" %>								
+											<a title="Deactivate turn" class="dot_link" href='<%= url_for :action => "set_turns_deactive", :id => f.pk_tn_id, :track_id => f.fk_track_id  %>'>
+										<% else %>
+											<% active_image_name="don.png" %>								
+											<a title="Activate turn" class="dot_link" href='<%= url_for :action => "set_turns_active", :id => f.pk_tn_id, :track_id => f.fk_track_id  %>'>
+										<% end %>
+										<img src="/assets/design_icons/<%= active_image_name %>" /> 
+									</a>
+									</div>	
+									
+									 <div class="i_btn">
+									<a title="Edit turn" class="dot_link" href='<%= url_for :action => "edit", :id => f.pk_tn_id, :track_id => f.fk_track_id  %>'>
+										<img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/edit.png" />
+									</a>
+									</div>
+									
+									 <div class="i_btn">
+									<a title="Delete turn" class="dot_link delete_turns" href='<%= url_for :action => "delete", :id => f.pk_tn_id, :track_id => f.fk_track_id  %>'>
+										<img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/del.png" />
+									</a>
+									</div>
+									
+								<td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			<% end %>
+		<% end %>
+		
+		<!--
+		<div name="turn_temp" id="image_dot_temp" class="image_dot" style="disaply:none; left:0px; top:0px; ">
+			<a class="dot_link"><img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/red1.png" /> </a>
+			<div id="dot_info_temp" class="modal" style="display:none;">
+				<table>
+					<tr> <td class="text_right"> Turn Step ID:  </td><td class="text_right">new_step</td> </tr>	
+					<tr> <td class="text_right"> Turn Note: </td><td class="text_right">new_note</td> </tr>	
+					<tr>	
+						<td col-span="2">													
+							<% active_image_name="btn_yes.gif" %>	
+							
+							<div class="i_btn">
+							<a class="dot_link" href='<%= url_for :action => "set_turns_active", :id => "temp_id", :track_id => @client_track.pk_track_id  %>'>
+							<img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/<%= active_image_name %>" /> 
+							</a>
+							</div>	
+							
+							<div class="i_btn">
+							<a class="dot_link" href='<%= url_for :action => "edit", :id => "temp_id", :track_id => @client_track.pk_track_id  %>'>
+							<img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/form_edit.png" />
+							</a>		
+							</div>
+							
+							<div class="i_btn">
+							<a class="dot_link" href='<%= url_for :action => "delete", :id => "temp_id", :track_id => @client_track.pk_track_id  %>'>
+							<img src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/form_delete.png" />
+							</a>
+							</div>
+							
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		-->
+	</div>
+	
+	<div class="div_inner_image drop-field " >
+		<img class="container" id="img_track_image" src="<%= Protrack::Configuration['image_server_ip'] + "" +  @client_track.track_image %>" alt="<%= t :TrackImage %>"  />
+	</div>
+</div>
+
+<div style="float:left; width:265px; text-align:left; font-size:12px; line-height:18px; color:red; margin-bottom:10px;">
+	<span style="margin-left:1px; margin-bottom:5px; float:left; ">Please, follow below step for track turns/notes: </span>
+	<br><hr>
+	<span style="float:left; margin-left:3px;">1) Press right key of mouse for create a new turn/note,</span>
+	<br><hr>
+	<span style="float:left; margin-left:3px;">2) Press left key of mouse on circle of turn/note for edit/delete/active/deactive  turn/note,</span>
+	<br><hr>
+	<span style="float:left; margin-left:3px;">3) If you want to move circle of turn/note, then drag and drop turn/note circle,</span>
+	<br><hr>
+	<span style="float:left; margin-left:3px;">4) Meaning of round circle is describe as per below:</span>
+	<br><hr>
+	<div style="clear:both;"></div>
+	<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">a) </span>
+		
+		<div style="float:left; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/red1.png">
+		</div>
+		<p style="float:left; padding-top: 5px;">: Inactive Turn</p>
+		
+		<p>
+			<br>
+			<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">b) </span>
+		</p>
+		<div style="float:left; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/green1.png">
+		</div>
+		<p style="float:left; color:green; padding-top: 5px;">: Inactive Notes</p>
+		
+		<br>
+		<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">c) </span>
+		<div style="float:left; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/gray.png">
+		</div>
+		<p style="float:left; padding-top: 5px; color:gray;">: Active Turn/Note</p>
+		
+		<br>
+		<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">d) </span>
+		<div style="float:left; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/clo.png">
+		</div>
+		<p style="float:left; padding-top: 5px; color:red;">: Deactivate Turn/Note</p>
+		
+		<br>
+		<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">e) </span>
+		<div style="float:left; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/don.png">
+		</div>
+		<p style="float:left; padding-top: 5px; color:green;">: Activate Turn/Note</p>
+		
+		<br>
+		<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">f) </span>
+		<div style="float:left; margin-left:4px; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/edit.png">
+		</div>
+		<p style="float:left; padding-top: 5px; color:gray;">: Edit Turn/Note</p>
+		
+		<br>
+		<span style="margin-left:5px; margin-right:5px; padding-top: 5px; float:left;">g) </span>
+		<div style="float:left; padding-top: 2px;margin-right:5px;">
+			<img width="20" height="20" src="<%= Protrack::Configuration['image_server_ip'] %>/assets/design_icons/del.png">
+		</div>
+		<p style="float:left; padding-top: 5px; color:red;">: Delete Turn/Note</p>
+		
+		<br>		
+		<span id="pos1"></span>
+</div>
+
+
+

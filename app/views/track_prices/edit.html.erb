@@ -1,0 +1,63 @@
+<%= form_for @track_price, :url =>  {:action => "update", :id => @track_price.id} do |f| %>
+	
+	<% if @track_price.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% error_no=1 %>
+		<% @track_price.errors.full_messages.each do |msg| %>		
+				<p><%= "#{error_no}) #{msg}" %></p>	
+				<% error_no = error_no + 1 %>	
+		<% end %>
+	</div>
+	<% end %>
+	
+	<fieldset>
+		<legend><%= t :EditPrice %></legend>
+		<%= f.hidden_field :fk_client_id %>
+		<%= f.hidden_field :android_product_id %>
+		<%= f.hidden_field :android_price %>	
+		
+		<label><%= t :ProductID %>: </label>
+		<%= f.text_field :ios_product_id, :class => "narrow", :style => "width:30% !important;"  %>
+		<br />
+			
+		<label><%= t :Price %>: </label>
+		$<%= f.text_field :ios_price, :class => "narrow", :style => "width:5% !important;"  %>		
+		<br />
+		
+		<label><%= t :Description %>: </label>
+		<%= f.text_area :description, :class => "narrow", :rows => 3, :style => "width:30% !important;"  %>		
+		<br />	
+		
+		<label><%= t :TrackLastMod %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@track_price.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "", :disabled => true  %>
+		<br />	
+		
+		<label ></label>	
+		<%= submit_tag t('Save'), :value => t('Save'), :class => "green proccessing" %>					
+		<input   class="gray" type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index" %>" tooltip="<%= t :Index %>" >
+			<input   class="red proccessing" type="button" value="<%= t :Cancel %>" id="cancel_price" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+
+<script type="text/javascript">
+$(document).ready(function() {	
+  
+   $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });	
+	 
+    $('#product_price_ios_price').change(function(){
+        if(parseFloat(this.value).toFixed(2) == 'NaN')
+           this.value = "";
+        else            
+         this.value = parseFloat(this.value).toFixed(2); 
+    });
+	
+});
+</script>

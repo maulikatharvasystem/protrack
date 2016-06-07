@@ -1,0 +1,168 @@
+<%= javascript_include_tag "jquery.MultiFile.js" %>
+
+<style>
+	.MultiFile-list{
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+
+	.MultiFile-label{
+		padding-top: 5px;
+	}
+
+</style>
+
+<%= form_for @race_engineer_report, :url =>  {:action => "update"}, html: { method: :put } do |f| %>
+
+	<div id="error_div"></div>
+	<% if @race_engineer_report.errors.full_messages.length >0 %>
+		<div class="error">
+		  <% @race_engineer_report.errors.full_messages.each_with_index do |msg, index| %>
+			  <p><%= "#{index+1}) #{msg}" %></p>
+		  <% end %>
+		</div>
+	<% end %>
+
+	<fieldset>
+	  <legend><%= t :EditRaceReport %></legend>
+	  <%= f.hidden_field :race_engineer_id %>
+	  <%= f.hidden_field :client_id %>
+
+	  <label><%= t :ReportName %>: </label>
+	  <%= f.text_field :name, :class => "narrow", :style => "width:30% !important;"  %>
+	  <br />
+
+	  <label><%= t :Date %>: </label>
+	  <%= f.text_field :report_date, :class => "narrow", :style => "width:10% !important;"  %>
+	  <br />
+
+
+	  <label><%= t :Driver %>: </label>
+	  <%= f.select :driver_id, DeviceUser.get_device_user_list(@race_engineer_report.client_id).collect {|m| [m.name, m.id] }, {:prompt => t('Driver'), :id => "driver_id"}, :style => "margin-top:5px;"  %>
+	  <br />
+
+	  <label><%= t :EngineerName %>: </label>
+	  <%= f.text_field :engineer_name, :disabled => true, :class => "narrow", :style => "width:30% !important; readonly:true;"  %>
+	  <br />
+
+	  <label><%= t :Championship %>: </label>
+	  <%= f.text_field :championship, :class => "narrow", :style => "width:60% !important;"  %>
+	  <br />
+
+	  <label><%= t :Circuit %>: </label>
+	  <%= f.select :circuit, ClientTrack.all.collect{|track| [track.track_name, track.id]}, {:prompt => "-- SELECT --"}, :style => "margin-top:5px;"  %>
+	  <br />
+
+	  <label><%= t :Event %>: </label>
+	  <%= f.text_field :event, :class => "narrow", :style => "width:60% !important;"  %>
+	  <br />
+
+	  <label><%= t :ReportInfo %>: </label>
+	  <%#= f.text_area :report_info, :class => "narrow", :style => "width:60% !important; height: 75px;"  %>
+	  <%= @race_engineer_report.report_info.split('/').last unless @race_engineer_report.report_info.nil? %>
+	  <%= f.file_field :report_info, :height => "80px;", :width => "80px", :accept => "application/pdf" %>
+
+	  <br />
+
+	  <label ></label>
+	  <!--<input  class="green"  type="button" value="<%#= t :Save %>" id="edit_race_engineer_report" tabindex="4" />-->
+	  <%= f.submit 'Save', class: 'green' %>
+	  <input  class="gray"  type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+
+	  <a href="<%= url_for :action => "index" %>" tooltip="<%= t :Index %>" >
+		<input  class="red proccessing"  type="button" value="<%= t :Cancel %>" id="cancel_track" tabindex="5" />
+	  </a>
+
+	</fieldset>
+
+<% end %>
+
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$( "#race_engineer_report_report_date" ).datepicker();
+		$( "#race_engineer_report_report_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+		$('#race_engineer_report_report_date').attr('value', "<%= @race_engineer_report.report_date %>");
+
+		$('#client_track_no_turns').change(function(){
+			if(parseInt(this.value).toFixed(0) == 'NaN')
+				this.value = "";
+			else
+				this.value = parseInt(this.value).toFixed(0);
+		});
+
+		$("#new_race_engineer_report").ajaxStop(function(){
+			$("#middlepart").unmask();
+		});
+
+		$(".proccessing").click(function(){
+			$("#middlepart").mask("Processing...");
+		});
+
+		$("#reset_form").click(function(){
+			$("#race_engineer_report_session_image_wrap_list").html('');
+			return true;
+		});
+
+		$("#edit_race_engineer_report").click(function(){
+			$("#middlepart").mask("Processing...");
+
+			// var  oOutput = document.getElementById("new_client_track"),
+			oData = JSON.stringify($('form').serializeArray());
+			$.ajax({
+				url: '/race_engineer_reports/'+<%= @race_engineer_report.id %>,
+				type: 'PUT',
+				dataType: 'jsonp',
+				data: oData
+			}).done(function(oEvent) {
+
+				$("#error_div").html('');
+				$("#error_div").removeClass('error');
+				var data=jQuery.parseJSON(oReq.response);
+				if(data.resp_code == "200")
+				{
+					window.location.href = "<%= url_for :action => "index" %>";
+				}
+				else
+				{
+					messages = data.message.split(",");
+					$.each(messages,function(i){
+//                        alert(i);
+						$("#error_div").append("<p>" + parseInt(i+1) + ". " + messages[i] + "</p>");
+					});
+					$("#error_div").addClass('error');
+					$("#middlepart").unmask();
+				}
+			});
+
+
+//			var oReq = new XMLHttpRequest();
+//			oReq.open("PUT", "<%#= url_for :action => "update", id: @race_engineer_report.id %>", true);
+//			oReq.onload = function(oEvent) {
+//				alert('success')
+//
+//				$("#error_div").html('');
+//				$("#error_div").removeClass('error');
+//				var data=jQuery.parseJSON(oReq.response);
+//				if(data.resp_code == "200")
+//				{
+//					window.location.href = "<%#= url_for :action => "index" %>";
+//				}
+//				else
+//				{
+//					messages = data.message.split(",");
+//					$.each(messages,function(i){
+////                        alert(i);
+//						$("#error_div").append("<p>" + parseInt(i+1) + ". " + messages[i] + "</p>");
+//					});
+//					$("#error_div").addClass('error');
+//					$("#middlepart").unmask();
+//				}
+
+//			};
+//			oReq.send(oData);
+		});
+
+	});
+</script>

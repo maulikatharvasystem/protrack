@@ -1,0 +1,174 @@
+<%= javascript_include_tag "jquery.MultiFile.js" %>
+	
+<style>
+.edit_extra_image, .edit_info_image{
+background-color: #808080;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.remove_track_image, .edit_info_image{
+	cursor: pointer;
+}
+
+.MultiFile-list{ 
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+		
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+	
+	
+</style>
+
+<%= form_for @track_turn_note, :url =>  {:action => "update", :id => @track_turn_note.id} do |f| %>
+	
+	<% if @track_turn_note.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% @track_turn_note.errors.full_messages.each do |msg| %>		
+				<p><%= msg %></p>	
+		<% end %>
+	</div>
+	<% end %>
+	
+	<fieldset>
+		<legend><%= t :EditTurn %></legend>
+		<%= f.hidden_field :fk_client_id %>
+		<%= f.hidden_field :fk_track_id %>
+		
+		<label><%= t :PlacementType %>: </label>
+		<%= f.select :fk_plactype_id, TrackPlacementType.get_track_placement_type().collect {|m| [m.plac_name, m.id] }, {:prompt => t('PlacementType'), :id => "fk_plactype_id"} %>
+		<br />	
+		
+		<label><%= t :TurnStepID %>: </label>
+		<%= f.text_field :tn_step_id, :class => "narrow", :style => "width:30% !important;"  %>
+		<br />
+			
+		<label><%= t :TurnName %>: </label>
+		<%= f.text_field :tn_name, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br /> 
+		
+		<label><%= t :TurnData %>: </label>
+		<%= f.text_area :tn_data, :class => "narrow", :style => "width:30% !important;", :rows => 10 %>
+		<br />
+		
+		<label><%= t :TurnVideo %>: </label>	
+		<%= f.text_field :tn_video, :class => "narrow", :style => "width:30% !important;"  %>			
+		<br />
+		
+		<label><%= t :TurnType %>: </label>	
+		<%= f.text_area :tn_type, :class => "narrow", :style => "width:30% !important;", :rows => 10 %>
+		<br />	
+
+		<label><%= t :TurnStrategy %>: </label>	
+		<%= f.text_area :tn_strategy, :class => "narrow", :style => "width:30% !important;", :rows => 10 %>
+		<br />		
+		
+		<label><%= t :TurnMarker %>: </label>
+		<%= f.text_area :tn_marker, :class => "narrow", :style => "width:30% !important;", :rows => 10 %>		
+		<br />	
+		
+		<label><%= t :TurnPicture %>: </label>
+		<a href="<%= Protrack::Configuration['image_server_ip'] + "" + @track_turn_note.tn_picture %>" target="_blank" tooltip="<%= t :TrackImage %>" >
+			<img src="<%= Protrack::Configuration['image_server_ip'] + "" + @track_turn_note.tn_picture %>" width="80" height="80" alt="<%= t :TurnPicture %>" style="margin-top:5px;" />
+		</a>
+		
+		<div style="clear:both"></div>
+		<label></label>
+	    <%= f.file_field :tn_picture, :height => "80px;", :width => "80px", :accept => "image/*" %>				
+		<br /><br />
+		
+		<label><%= t :TurnInfoImages %>: </label>
+		<div>
+			<% if @turn_info_image.empty? == false %> 
+				<% @turn_info_image.each do |turn_info_image| %> 
+					<div class="edit_info_image" id="div_remove_turn_info_image_<%= turn_info_image.id %>">
+						<a href="<%= Protrack::Configuration['image_server_ip'] + "" + turn_info_image.turn_image %>" target="_blank" tooltip="<%= t :TurnInfoImages %>" >
+							<img src="<%= Protrack::Configuration['image_server_ip'] + "" + turn_info_image.turn_image %>" width="80" height="80" alt="<%= t :TurnInfoImages %>" />
+						</a>
+						<br/>
+						<input type="button" class="remove_turn_info_image" value="<%= t :Remove %>" id="remove_turn_info_image_<%= turn_info_image.id %>" tabindex="5" />
+					</div>
+				<% end %>
+			<% end %>
+		</div>		
+		<br style="clear:both;" />
+		<label></label>
+		<%= f.file_field :turn_info_image, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "image/png,jpeg,jpg" %>				
+		<br style="clear:both;" />	
+		
+	    <label><%= t :TurnNote %>: </label>
+		<%= f.text_area :tn_note, :class => "narrow", :style => "width:30% !important;", :rows => 10 %>			
+		<br />			
+			
+		<label><%= t :TrackLastMod %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@track_turn_note.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "", :disabled => true  %>
+		<br />	
+		
+		<label ></label>	
+		<%= submit_tag t('Save'), :value => t('Save'), :class => "" %>					
+		<input type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index", :id => @track_turn_note.fk_track_id  %>" tooltip="<%= t :Index %>" >
+			<input type="button" value="<%= t :Cancel %>" id="cancel_track" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+
+<script type="text/javascript">
+$(document).ready(function() {	 
+	  
+	   $(".remove_turn_info_image").click(function() {	
+			if(confirm("Are you sure you wish to delete this image?") == false) return false;   
+
+			var image_id=  $(this).attr('id').replace('remove_turn_info_image_', '');
+			$("#middlepart").mask("Processing...");	
+			
+			$.ajax({
+				url: "<%= url_for :action => "delete_turn_image_ajax" %>",
+				type: 'post',				
+				data: "id=" + image_id + "",
+				dataType: 'json',
+				beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+				success: function(json) {
+					if(json.resp_code == '200') {
+						alert(json.message );						
+						$("#div_remove_turn_info_image_" + image_id).remove();	
+					} else {
+						alert(json.message);
+						//load_famille();
+					}
+				}
+			});							
+			return false;
+	  });
+  
+	  $.ajaxSetup({
+		  headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		  }
+	   });
+		
+      $(".edit_track_turn_note").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	  
+	   $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  }); 
+	  
+});
+</script>

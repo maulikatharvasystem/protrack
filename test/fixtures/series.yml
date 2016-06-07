@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  series: MyString
+  regulations_pdf_url: MyString
+  media_pdf_url: MyString
+  car_manual_pdf_url: MyString
+
+two:
+  series: MyString
+  regulations_pdf_url: MyString
+  media_pdf_url: MyString
+  car_manual_pdf_url: MyString

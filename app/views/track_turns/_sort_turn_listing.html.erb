@@ -1,0 +1,87 @@
+
+<table cellspacing="0" cellpadding="0" width="100%" class="listing" id="tracks_listing"  >
+	 <thead>
+		<tr>
+            <th class="capt" colspan="3">
+				<%= t :TurnSorting %> 											
+			</th>			
+		</tr>
+		
+		<tr class="ftr">				
+			<th style="text-align:left;">		
+				<%= t('TurnName') %>
+			</th>	
+			<th style="text-align:left;">		
+				<%= t('TurnStepID') %>
+			</th>	
+			<th style="text-align:left;">		
+				<%= t('TurnSorting') %>
+			</th>				
+		</tr>
+	</thead>
+	
+	<% alt_row=0 %>
+	<% sr_no=0 %>
+	<% if @track_turn_notes.nil? || @track_turn_notes.count == 0  %>
+		<tr>
+			<td colspan="4" style="border: none;"><%= t :NoRecordFound %></td>
+		</tr>
+	<% else %>
+		<% @track_turn_notes.each do |f| %>		
+		<% if alt_row==0 %>
+			<% alt_row=1 %>
+			<tr id="node-<%= f.id %>">
+		<% else %>
+			<tr id="node-<%= f.id %>" class="tb_grey">
+			<% alt_row=0 %>
+		<% end %>				
+			<td  align="center" valign="middle">	  		
+			   <div id="tn_name<%= f.id %>" class=""  style="text-align:left;">
+					<%= f.tn_name %>
+			   </div>   
+			</td>
+			<td  align="center" valign="middle">	  		
+			   <div id="tn_step_<%= f.id %>" class=""  style="text-align:left;">
+					<%= f.tn_step_id %>
+			   </div>   
+			</td>
+			<td  align="left" valign="middle" style="text-align:left;">			  		
+			   <div id="div_sort_no_<%= f.id %>" class="sort_no" style="">
+					<input id="sort_no_<%= f.id %>" type="text" value="<%= f.sort_no %>" class="narrow sort_no_val" style="width:10% !important;"	>
+			   </div>   
+			</td>			
+		</tr>
+		<% end %>
+	<% end %>	
+		
+		<tfoot>	
+		<tr>	
+			<th colspan="2" class="ftr">
+				<div class="paging_cntr">
+					<!--start  Pagination --> 
+					<% if @track_turn_notes.nil? == false %>
+						<% if @track_turn_notes.count > 0 %>
+							<div style="float:left;  margin-right:15px;"><%=  will_paginate @track_turn_notes %>
+							</div>
+						<% end %>
+					<% end %>
+					<!-- end Pagination -->							
+				</div>			
+			</th>	
+			<th colspan="1" class="ftr">
+				<% if @track_turn_notes.nil? == false %>
+					<% if @track_turn_notes.count > 0 %>
+						<div>
+							<input class="publish" type="button" value="<%= t :SaveTurn %>" id="save_turn" tabindex="5" />
+							
+						</div>
+					<% end %>
+				<% end %>
+			</th>
+		</tr>	
+	</tfoot>
+	
+</table>
+<!-- End cs_slider -->
+<%=hidden_field_tag "pageno", params[:page]%>
+

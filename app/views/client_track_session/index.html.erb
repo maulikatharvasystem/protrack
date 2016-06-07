@@ -1,0 +1,27 @@
+<% engn_id = session[:engn_id] || 0  %>
+
+<br/>
+<%= form_tag '', :method => 'get', :id => "track_sessions_form", :class=>'form', :style => "padding:0px;" do %>  						
+	<div id="track_sessions_div"> 	
+		<%= render 'session_listing' %>	  	
+	</div>												
+<% end %>	
+
+<script type="text/javascript">
+$(document).ready(function() {	  
+	  $("#track_sessions_div th a, #track_sessions_div .pagination a").live("click", function() {			
+			$("#middlepart").mask("Processing...");	
+			$.getScript(this.href);			
+			return false;
+	  });
+  
+     $("#track_sessions_div").ajaxStop(function(){	
+	  	$("#middlepart").unmask();	
+	  });
+	 
+	  $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+	 
+});
+</script>

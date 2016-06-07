@@ -1,0 +1,70 @@
+<br/>
+<%= form_tag '', :method => 'get', :id => "tracks_form", :class=>'form', :style => "padding:0px;" do %>  						
+	<div id="turns_div"> 	
+		<%= render 'sort_turn_listing' %>	  	
+	</div>												
+ <% end %>	
+ 
+ <script type="text/javascript">
+ var page_ajax=0;
+ 
+$(document).ready(function() {	  
+	  $("#turns_div th a, #turns_div .pagination a").live("click", function() {	
+			page_ajax=1;	  	
+			$("#middlepart").mask("Processing...");	
+			$.getScript(this.href);			
+			return false;
+	  });
+  
+     $("#turns_div").ajaxStop(function(){	
+		if(page_ajax == 1)
+		{
+			$("#middlepart").unmask();	
+			page_ajax=0;
+		}
+	  });
+		
+	  $("#save_turn").live('click',function(){
+			var tot_turns=$('.sort_no').length;
+			var sel_turns=$('.sort_no');
+			var val_sort_no="";
+			var id_sort_no="";
+			var curr_index=1;
+			
+			if(tot_turns <= 0)
+			{
+				return false;
+			}	
+			
+			$("#middlepart").mask("Processing...");	
+			sel_turns.each(function(index){
+		     	id_sort_no= $(this).find('.sort_no_val').attr('id');
+				id_sort_no=id_sort_no.replace("sort_no_","");
+				//alert("id_sort_no=" + id_sort_no);
+				
+				val_sort_no=$("#sort_no_" + id_sort_no + "").val();
+				//alert("val_sort_no=" + val_sort_no);
+				if(val_sort_no != "")
+				{										
+					$.ajax({
+						url: "<%= url_for :action => "sort_save_ajax" %>",
+						data: "id=" + id_sort_no + "&sort_no=" + val_sort_no + "",
+						dataType: "json",
+						async: false,
+						success: function(data, textStatus, jqXHR){
+							//alert("data" + jQuery.parseJSON(data));
+							$("#middlepart").mask("Processing finish " + parseInt((curr_index * 100)/tot_turns) + "% ...");	
+						}
+					});					
+				}
+				val_sort_no="";
+				id_sort_no="";
+				curr_index= curr_index + 1 ;
+			});
+			
+			//alert("Sorting is successfully updated.");
+			$("#middlepart").unmask();	
+		    return false;
+	  });
+});
+</script>

@@ -1,0 +1,137 @@
+<%= javascript_include_tag "jquery.MultiFile.js" %>
+
+	<style>
+		.MultiFile-list{ 
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+		
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+	
+	</style>
+	
+<%= form_for @track_session, :url =>  {:action => "create"} do |f| %>
+	
+	<% if @track_session.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% error_no=1 %>
+		<% @track_session.errors.full_messages.each do |msg| %>		
+				<p><%= "#{error_no}) #{msg}" %></p>	
+				<% error_no = error_no + 1 %>	
+		<% end %>
+	</div>
+	<% end %>
+	
+	
+	<fieldset>
+		<legend><%= t :AddTrackSession %></legend>		
+		<%= f.hidden_field :fk_engn_id %>
+		
+		<label><%= t :SessionName %>: </label>
+		<%= f.text_field :name, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+		
+		<label><%= t :Date %>: </label>
+		<%= f.text_field :session_date, :class => "narrow", :style => "width:10% !important;"  %>		
+		<br />
+			
+		
+		<label><%= t :Driver %>: </label>	
+		<%= f.select :fk_driver_id, DeviceUser.get_device_user_list(@track_session.fk_client_id).collect {|m| [m.name, m.id] }, {:prompt => t('Driver'), :id => "driver_id"}, :style => "margin-top:5px;"  %>	
+		<br />
+		
+		<label><%= t :EngineerName %>: </label>
+		<%= f.text_field :engineer_name, :disabled => true, :class => "narrow", :style => "width:30% !important; readonly:true;"  %>		
+		<br />
+		
+		<label><%= t :Championship %>: </label>
+		<%= f.text_field :championship, :class => "narrow", :style => "width:60% !important;"  %>		
+		<br />
+		
+		<label><%= t :Circuit %>: </label>
+		<%= f.text_field :circuit, :class => "narrow", :style => "width:60% !important;"  %>		
+		<br />
+		
+		<label><%= t :Event %>: </label>
+		<%= f.text_field :event, :class => "narrow", :style => "width:60% !important;"  %>		
+		<br />
+						
+		<label><%= t :SessionImage %>: </label>
+		<%= f.file_field :session_image, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "image/png,jpeg,jpg" %>
+
+      <!--<label> Engineer Report :</label>-->
+      <%#= f.file_field :engineer_report, :multiple => true, :class => "multi", :height => "80px;", :width => "80px", :accept => "application/pdf" %>
+
+
+      <label ></label>
+		<input  class="green"  type="button" value="<%= t :Save %>" id="create_track_session" tabindex="4" />		
+		<input  class="gray"  type="reset" value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index" %>" tooltip="<%= t :Index %>" >
+			<input  class="red proccessing"  type="button" value="<%= t :Cancel %>" id="cancel_track" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+     $( "#track_session_session_date" ).datepicker();
+	 $( "#track_session_session_date" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
+	 $('#track_session_session_date').attr('value', "<%= @track_session.session_date %>");
+	
+     $('#client_track_no_turns').change(function(){
+        if(parseInt(this.value).toFixed(0) == 'NaN')
+           this.value = "";
+        else            
+         this.value = parseInt(this.value).toFixed(0); 
+    });
+	
+	 $("#new_track_session").ajaxStop(function(){			
+	  	$("#middlepart").unmask();			
+	  });	
+	  
+	  $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+	  
+	  $("#reset_form").click(function(){
+			$("#track_session_session_image_wrap_list").html('');
+			return true;
+	  });
+	  	   	  
+	$("#create_track_session").click(function(){		 
+		  $("#middlepart").mask("Processing...");
+		  
+		 // var  oOutput = document.getElementById("new_client_track"),
+	      oData = new FormData(document.forms.namedItem("new_track_session"));
+					
+		  var oReq = new XMLHttpRequest();
+		  oReq.open("POST", "<%= url_for :action => "create_ajax" %>", true);
+		  oReq.onload = function(oEvent) {	
+		
+			var data=jQuery.parseJSON(oReq.response);			
+			if(data.resp_code == "200")
+			{
+//				alert(data.message);
+				window.location.href = "<%= url_for :action => "index" %>";
+//				return false;
+			}
+			else
+			{
+				$("#middlepart").unmask();	
+//				alert(data.message);
+//				return false;
+			}
+			
+		  };
+		  oReq.send(oData);
+   });
+   
+});
+</script>

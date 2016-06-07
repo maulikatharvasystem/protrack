@@ -1,0 +1,71 @@
+<%= form_for @race_engineer, :url =>  {:action => "update", :id =>  @race_engineer.id} do |f| %>
+	
+	<% if @race_engineer.errors.full_messages.length >0 %>			
+	<div class="error">
+		<% @race_engineer.errors.full_messages.each do |msg| %>		
+				<p><%= msg %></p>	
+		<% end %>
+	</div>
+	<% end %>
+	
+	<fieldset>
+		<legend><%= t :EditRaceEngineer %></legend>		
+		
+		<label><%= t :RaceEngineerName %>: </label>
+		<%= f.text_field :race_engineer_name, :class => "narrow", :style => "width:30% !important;"  %>
+		<br />
+			
+		<label><%= t :ContactPerson %>: </label>
+		<%= f.text_field :contact_person, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+		
+		<label><%= t :Email %>: </label>
+		<%= f.text_field :email, :class => "narrow", :style => "width:30% !important;", :disabled => true  %>		
+		<br />
+
+		<label><%= t :Password %>: </label>
+		<%= f.password_field :encrypt_pwd, :class => "narrow", value: "", :style => "width:20% !important;"  %>
+		(Leave it blank for no change in password.)		
+		<br />
+
+		<label><%= t :ConfirmPassword %>: </label>
+		<%= f.password_field :confirm_password, :class => "narrow", value: "", :style => "width:20% !important;"  %>		
+		(Leave it blank for no change in password.)	
+		<br />
+						
+		<label><%= t :Phone %>: </label>
+		<%= f.text_field :phone, :class => "narrow", :style => "width:20% !important;"  %>		
+		<br />
+		
+		<label><%= t :Address %>: </label>
+		<%= f.text_area :address, :class => "narrow", :style => "width:30% !important;", :rows => 3   %>		
+		<br />
+		
+		<label><%= t :WebSite %>: </label>
+		<%= f.text_field :website, :class => "narrow", :style => "width:30% !important;"  %>		
+		<br />
+			
+		<label><%= t :LastModified %>: </label>
+		<%= f.text_field :last_updated_at, :value => "#{@race_engineer.last_updated_at.strftime("%m-%d-%Y %H:%M:%S")}", :class => "narrow", :style => "width:20% !important;", :disabled => true  %>
+		<br />	
+				
+		<label ></label>	
+		<%= submit_tag t('Save'), :value => t('Save'), :class => "green processing" %>					
+		<input type="reset" class="gray"  value="<%= t :Reset %>" id="reset_form" tabindex="5" />
+				
+		<a href="<%= url_for :action => "index_flash_clear" %>" tooltip="<%= t :Index %>" >
+			<input type="button"  class="red processing"  value="<%= t :Cancel %>" id="cancel_client" tabindex="5" />
+		</a>
+		
+	</fieldset>
+
+<% end %>
+
+ <script type="text/javascript">
+$(document).ready(function() {	
+	$('.processing').click(function(){
+		 $("#middlepart").mask("Processing...");	
+	 });
+
+});
+ </script>

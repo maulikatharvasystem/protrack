@@ -1,0 +1,97 @@
+<style>
+.edit_session_image{
+background-color: #808080;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 0px;
+    margin-right: 5px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+}
+
+.remove_session_image{
+	cursor: pointer;
+}
+
+.MultiFile-list{
+		padding-bottom: 2px;
+		padding-left: 160px;
+		padding-right: 0;
+		padding-top: 5px;}
+
+		.MultiFile-label{
+			padding-top: 5px;
+		}
+
+
+</style>
+
+<%= form_for @race_engineer_report, :url =>  {:action => "index", :id => @race_engineer_report.id} do |f| %>
+
+	<fieldset>
+		<!--<legend> View Engineer Report </legend>-->
+
+	  <legend><%= t :ViewRaceReport %></legend>
+
+	  <label><%= t :ReportName %>: </label>
+	  <%= f.text_field :name, :class => "narrow", :style => "width:30% !important;", disabled: true  %>
+	  <br />
+
+	  <label><%= t :Date %>: </label>
+	  <%= f.text_field :report_date, :class => "narrow", :style => "width:10% !important;", disabled: true  %>
+	  <br />
+
+
+	  <label><%= t :Driver %>: </label>
+	  <%= f.select :driver_id, DeviceUser.get_device_user_list(@race_engineer_report.client_id).collect {|m| [m.name, m.id] }, {:prompt => t('Driver'), :id => "driver_id"}, :style => "margin-top:5px;", disabled: true  %>
+	  <br />
+
+	  <label><%= t :EngineerName %>: </label>
+	  <%= f.text_field :engineer_name, :disabled => true, :class => "narrow", :style => "width:30% !important; readonly:true;"  %>
+	  <br />
+
+	  <label><%= t :Championship %>: </label>
+	  <%= f.text_field :championship, :class => "narrow", :style => "width:60% !important;", disabled: true  %>
+	  <br />
+
+	  <label><%= t :Circuit %>: </label>
+	  <%= f.select :circuit, ClientTrack.all.collect{|track| [track.track_name, track.id]}, {:prompt => "-- SELECT --"}, :style => "margin-top:5px;", disabled: true  %>
+	  <br />
+
+	  <label><%= t :Event %>: </label>
+	  <%= f.text_field :event, :class => "narrow", :style => "width:60% !important;", disabled: true  %>
+	  <br />
+
+	  <label><%= t :ReportInfo %>: </label>
+	  <%= f.text_field :report_info, :class => "narrow", :style => "width:60% !important;", disabled: true  %>
+	  <br />
+
+		<br style="clear:both;" />
+
+		<label ></label>
+	  <a href="<%= url_for :action => "edit", :id => @race_engineer_report.id %>" tooltip="<%= t :Edit %>"  >
+		<input class="green proccessing" type="button" value="<%= t :Edit %>" id="edit_session" tabindex="5" style="margin-top:5px;" />
+	  </a>
+	  <a href="<%= url_for :action => "destroy", :id => @race_engineer_report.id %>" tooltip="<%= t :Delete %>" data-method="delete" data-confirm="Are you sure ?">
+		<input class="gray proccessing"  type="button" value="<%= t :Delete %>" id="delete_session" tabindex="5" />
+	  </a>
+
+	  <a href="<%= url_for :action => "index" %>" tooltip="<%= t :Index %>" >
+		<input  class="red proccessing" type="button" value="<%= t :Cancel %>" id="cancel_session" tabindex="5" />
+	  </a>
+
+	</fieldset>
+
+<% end %>
+
+<script type="text/javascript">
+$(document).ready(function() {	
+  
+   $(".proccessing").click(function(){	
+	  	$("#middlepart").mask("Processing...");	
+	  });
+});
+</script>
